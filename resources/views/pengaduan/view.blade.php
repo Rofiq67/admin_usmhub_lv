@@ -31,45 +31,45 @@
                             <div class="col-sm 12">
                                 <!--itemnya-->
                                 <table class="table table-bordered dataTable" id="dataTable"  width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                                    <tr>
+                                     <tr>
                                         <th>NIM</th>
-                                        <td> G211200123</td>
+                                        <td>{{ $pengaduan->user->username }}</td>
                                     </tr>
                                     <tr>
                                         <th>Kategori</th>
-                                        <td>Fasilitas</td>
+                                        <td>{{ $pengaduan->jenis_pengaduan }}</td>
                                     </tr>
                                     <tr>
                                         <th>Program Studi</th>
-                                        <td>Teknik Informatika</td>
+                                        <td>{{ $pengaduan->program_studi }}</td>
                                     </tr>
                                     <tr>
                                         <th>Keterangan</th>
                                         <td> 
-                                            Lorem ipsum sit almet emit jdsagisdui sbdhabdaduihsd asudhaiushdisauasudhaiushdisau asudhaiushdisau
+                                            {{ $pengaduan->keterangan }}
                                         </td>
                                     </tr>
                                     <tr>
+                                        <th>rating</th>
+                                        <td>{{ $pengaduan->rating }}</td>
+                                    </tr>
+                                    <tr>
                                         <th>Tanggal</th>
-                                        <td>12/02/2024</td>
+                                        <td>{{ $pengaduan->created_at->format('d/m/Y') }}</td>
                                     </tr>
                                     <tr>
                                         <th>Bukti Photo</th>
                                         <td>
-                                            {{-- @if($pengaduan->bukti_photo)
-                                                <img src="{{ asset('storage/' . $pengaduan->bukti_photo) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;">
+                                            @if($pengaduan->bukti_photo)
+                                                <img src="{{ asset('storage/photos/' . $pengaduan->bukti_photo) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;">
                                             @else
                                                 Tidak ada photo
-                                            @endif --}}
-                                            photo
+                                            @endif
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>Status</th>
                                         <td>
-                                            {{-- <button class="btn btn-sm {{ $pengaduan->status == 'aktif' ? 'btn-success' : 'btn-danger' }}">
-                                                {{ ucfirst($pengaduan->status) }}
-                                            </button> --}}
                                             <a href="#" class="btn btn-primary"> Belum dibaca </a>
                                             <a href="#" type="button" class="btn btn-outline-primary"> Ditindaklanjuti </a>
                                             <a href="#" type="button" class="btn btn-outline-primary"> Selesai </a>

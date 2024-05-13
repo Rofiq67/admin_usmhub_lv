@@ -42,24 +42,6 @@ class AuthController extends Controller
         ], 201);
     }
 
-    // public function loginApi(LoginRequest $request)
-    // {
-    //     $user = User::where('username', $request->username)->first();
-
-    //     if (!$user || !Hash::check($request->password, $user->password)) {
-    //         return response()->json([
-    //             'message' => 'Invalid credentials',
-    //         ], 422);
-    //     }
-
-    //     $token = $user->createToken('usm_hub')->plainTextToken;
-
-    //     return response()->json([
-    //         'user' => $user,
-    //         'token' => $token,
-    //         'is_admin' => $user->isAdmin(),
-    //     ], 200);
-    // }
 
 
     public function login(LoginRequest $request)
@@ -105,7 +87,7 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('admin.login');
+        return redirect()->route('auth.login');
     }
 
 

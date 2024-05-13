@@ -104,9 +104,9 @@
                                             <td>{{ $aduan->created_at->format('d/m/Y') }}</td>
                                             <td>
                                                 @if($aduan->bukti_photo)
-                                                    <img src="{{ asset('storage/' . $aduan->bukti_photo) }}" alt="Bukti Photo" style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%;">
+                                                    <img src="{{ asset('storage/photos/' . $aduan->bukti_photo) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;">
                                                 @else
-                                                    Tidak ada bukti
+                                                    Tidak ada photo
                                                 @endif
                                             </td>
                                             <td class="">

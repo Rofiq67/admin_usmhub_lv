@@ -24,16 +24,8 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
 
 
-//api mobile
-Route::post('/loginApi', [ApiController::class, 'loginApi'])->name('loginApi');
-
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']); // Rute untuk proses logout user mobile
 
 
-    // pengaduan
-
-    Route::post('/pengaduan/create', [ApiController::class, 'createAduan']);
-    // Route::get('/pengaduan', [ApiController::class, 'listPengaduan']);
 });

@@ -19,17 +19,20 @@ Route::get('/', function () {
 //     return view('auth.login');
 // })->name('auth.login');
 
-Route::get('/admin/login', function () {
+Route::get('/login', function () {
     return view('auth.login');
-})->name('admin.login');
+})->name('auth.login');
 
 
 Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout.submit');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-
+    Route::get('/pengaduan', [AduanController::class, 'index'])->name('pengaduan.index');
+    Route::get('/pengaduan/view/{id}', [AduanController::class, 'view'])->name('pengaduan.view');
 
     Route::get('/aspirasi', [AspirasiController::class, 'index'])->name('aspirasi.index');
     Route::get('/feed', [FeedController::class, 'index'])->name('feed.index');
+
+    Route::get('/chatroom', [ChatController::class, 'index'])->name('chat.room_chat');
 });
