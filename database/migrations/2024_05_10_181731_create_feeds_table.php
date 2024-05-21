@@ -13,7 +13,7 @@ return new class extends Migration
             $table->enum('kategori', ['Aspirasi', 'Pengaduan', 'Informasi']);
             $table->string('judul', 255);
             $table->text('deskripsi');
-            $table->string('file_path')->nullable();
+            $table->string('img_banner')->nullable();
             $table->boolean('status')->default(false);
             $table->timestamps();
         });

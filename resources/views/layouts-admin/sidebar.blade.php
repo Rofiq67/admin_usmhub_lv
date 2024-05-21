@@ -68,7 +68,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Pengeolahan Akun:</h6>
                 
-                <a class="collapse-item" href="#">Data Mahasiswa</a>
+                <a class="collapse-item" href="{{ route('users.index') }}">Data Mahasiswa</a>
                 <a class="collapse-item" href="#">Edit Profil</a>
             </div>
         </div>

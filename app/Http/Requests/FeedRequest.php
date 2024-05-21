@@ -25,7 +25,8 @@ class FeedRequest extends FormRequest
             'kategori' => 'required|in:Aspirasi,Pengaduan,Informasi',
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string',
-            'file_path' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'doc_feed' =>  'nullable|file|mimes:pdf|max:2048',
+            'img_banner' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
         ];
     }
 
@@ -40,8 +41,10 @@ class FeedRequest extends FormRequest
             'judul.required' => 'Judul diperlukan.',
             'judul.max' => 'Judul terlalu panjang.',
             'deskripsi.required' => 'Deskripsi diperlukan.',
-            'file_path.mimes' => 'File harus berupa gambar atau PDF.',
-            'file_path.max' => 'File terlalu besar (maksimum 2MB).',
+            'doc_feed.mimes' => 'File harus berupa PDF.',
+            'doc_feed.max' => 'File terlalu besar (maksimum 2MB).',
+            'img_banner.mimes' => 'File harus berupa gambar.',
+            'img_banner.max' => 'File terlalu besar (maksimum 2MB).',
         ];
     }
 }

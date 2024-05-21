@@ -5,74 +5,146 @@ namespace App\Http\Controllers\Feed;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FeedRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use App\Models\Feed;
+
+use Illuminate\Support\Facades\Storage;
 
 class FeedController extends Controller
 {
-    public function __construct()
-    {
-        // Terapkan middleware admin ke metode-metode yang memerlukannya
-        $this->middleware('admin')->only(['index', 'create', 'update', 'store', 'view']); // Menambahkan 'view' ke dalam middleware 'admin'
-    }
 
     public function index()
     {
-        // Mengambil semua feed
-        $feeds = Feed::all();
-        return response()->json($feeds, 200);
+        $feed = Feed::all();
+        return view('feed.index', compact('feed'));
     }
 
     public function view($id)
     {
         // Menampilkan detail feed berdasarkan ID
         $feed = Feed::findOrFail($id);
-        return response()->json($feed, 200);
+        return view('feed.view', compact('feed'));
     }
 
-    public function create(FeedRequest $request)
+    public function create()
     {
-        // Membuat feed baru
-        $filePath = null;
-        if ($request->hasFile('file_path')) {
-            $filePath = $request->file('file_path')->store('uploads', 'public');
+        return view('feed.create');
+    }
+
+    public function store(FeedRequest $request)
+    {
+        $data = $request->validated();
+
+        if ($request->hasFile('doc_feed')) {
+            $data['doc_feed'] = $request->file('doc_feed')->store('documents', 'public');
         }
 
-        $feed = Feed::create([
-            'kategori' => $request->input('kategori'),
-            'judul' => $request->input('judul'),
-            'deskripsi' => $request->input('deskripsi'),
-            'file_path' => $filePath,
-            'status' => false, // Default belum diupload
-        ]);
+        if ($request->hasFile('img_banner')) {
+            $data['img_banner'] = $request->file('img_banner')->store('photos', 'public');
+        }
 
-        return response()->json([
-            'message' => 'Feed berhasil dibuat',
-            'feed' => $feed,
-        ], 201);
+        $data['status'] = false; // Set default status
+
+        Feed::create($data);
+
+        return redirect()->route('feed.index')->with('success', 'Feed berhasil dibuat.');
     }
+
+
+
+    private function cleanTrixContent($content)
+    {
+        // Hapus tag <div> yang tidak diperlukan
+        $content = preg_replace('/<div>(.*?)<\/div>/', '$1', $content);
+        return $content;
+    }
+
+
 
     public function update(FeedRequest $request, $id)
     {
-        // Mengupdate feed
+        // Temukan feed berdasarkan ID
         $feed = Feed::findOrFail($id);
-        $feed->update($request->all());
 
-        return response()->json([
-            'message' => 'Feed berhasil diupdate',
-            'feed' => $feed,
-        ], 200);
-    }
+        // Perbarui data feed kecuali img_banner dan doc_feed
+        $feed->kategori = $request->kategori;
+        $feed->judul = $request->judul;
+        $feed->deskripsi = $request->deskripsi;
+        $feed->status = $request->has('status') ? $request->status : false;
 
-    public function store($id)
-    {
-        // Mengubah status feed menjadi diupload
-        $feed = Feed::findOrFail($id);
-        $feed->status = true;
+        // Cek apakah ada file img_banner yang diunggah
+        if ($request->hasFile('img_banner')) {
+            // Hapus file img_banner lama jika ada
+            $oldImgBannerPath = public_path('storage/' . $feed->img_banner);
+            if (File::exists($oldImgBannerPath)) {
+                File::delete($oldImgBannerPath);
+            }
+            // Simpan file img_banner yang baru
+            $imgBannerPath = $request->file('img_banner')->store('photos', 'public');
+            $feed->img_banner = $imgBannerPath;
+        }
+
+        // Cek apakah ada file doc_feed yang diunggah
+        if ($request->hasFile('doc_feed')) {
+            // Hapus file doc_feed lama jika ada
+            $oldDocFeedPath = public_path('storage/' . $feed->doc_feed);
+            if (File::exists($oldDocFeedPath)) {
+                File::delete($oldDocFeedPath);
+            }
+            // Simpan file doc_feed yang baru
+            $docFeedPath = $request->file('doc_feed')->store('documents', 'public');
+            $feed->doc_feed = $docFeedPath;
+        }
+
+        // Simpan perubahan
         $feed->save();
 
-        return response()->json([
-            'message' => 'Status feed berhasil diubah menjadi diupload',
-            'feed' => $feed,
-        ], 200);
+        // Redirect ke halaman feed view dengan pesan sukses
+        return redirect()->route('feed.view', $feed->id)->with('success', 'Informasi berhasil diperbarui.');
+    }
+
+
+
+
+    public function edit($id)
+    {
+        $feed = Feed::findOrFail($id);
+        return view('feed.edit', compact('feed'));
+    }
+
+    public function destroy($id)
+    {
+        $feed = Feed::findOrFail($id);
+        $feed->delete();
+
+        return redirect()->route('feed.index')->with('success', 'Feed berhasil dihapus.');
+    }
+
+    public function upload($id)
+    {
+        $feed = Feed::findOrFail($id);
+
+        if (!$feed) {
+            return redirect()->back()->with('error', 'Feed not found');
+        }
+
+        // Update status feed
+        $feed->uploaded = true;
+        $feed->save();
+
+        // Mengirim feed ke API user mobile
+        $client = new \GuzzleHttp\Client();
+        $response = $client->post('https://api.usersmobile.com/feed/latest', [
+            'json' => $feed->toArray(),
+            'headers' => [
+                'Authorization' => 'Bearer ' . env('API_USER_MOBILE_TOKEN'),
+            ],
+        ]);
+
+        if ($response->getStatusCode() == 200) {
+            return redirect()->route('feed.view', $feed->id)->with('success', 'Feed berhasil di-upload');
+        } else {
+            return redirect()->back()->with('error', 'Gagal meng-upload feed');
+        }
     }
 }

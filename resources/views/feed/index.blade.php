@@ -12,7 +12,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/ico" href="{{ asset('storage/uploads/logo_pemkab_demak32.ico') }}">
     
-    <title>USM HUB | Pengaduan</title>
+    <title>USM HUB | Feed </title>
 </head>
 <body>
 
@@ -22,57 +22,56 @@
     <div class="container-fluid">
         <!--table-->
         <div class="card shadow mb-4">
-             <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary"> Sebar Informasi </h6>
-                <a href="{{ route('feed.create') }}" class="btn btn-primary">Buat Postingan</a>
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                <h6 class="m-0 font-weight-bold text-primary"> Posting informasi</h6>
+                <a href="{{ route('feed.create') }}" class="btn btn-primary md-6">Buat Informasi</a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
                     <div class="dataTables_wrapper dt-bootstrap4" id="dataTable_wrapper">
-                        <div class="row">
-                            <div class="col-md-6 d-flex align-items-center">
-                                <div class="dataTables_legth" id="dataTable_length">
-                                    <label class="me-2">Show: </label>
-                                    <select name="dataTable_length" aria-controls="dataTable" style="width: auto;" class="custom-select custom-select-sm form-control form-control-sm">
-                                        <option value="10">10</option>
-                                        <option value="10">20</option>
-                                        <option value="10">30</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 d-flex justify-content-end align-items-center">
-                                <div id="dataTable_filter" class="dataTables_filter d-flex align-items-center">
-                                    <label class="me-2">Search: </label>
-                                    <input type="search" class="form-control form-control-sm" aria-controls="dataTable" style="max-width: 200px;">
-                                </div>
-                            </div>
-                        </div>
                         <div class="row mt-2">
                             <div class="col-sm 12">
                                 <table class="table table-bordered dataTable" id="dataTable"  width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                     <thead>
                                         <tr role="row">
-                                            <th class="sorting sorting_desc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="No: activate to sort column ascending" aria-sort="descending" style="width: 65.2px;">
-                                                No
-                                            </th>
-                                            <th class="sorting sorting_asc" tabindex="0" aria-sort="ascending" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="NIM: activate to sort column descending" style="width: 194.2px;">
-                                                Ketegori
+                                            <th data-dt-column="0" class="sorting sorting_desc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="No: activate to sort column ascending" aria-sort="descending" style="width: 65.2px;">
+                                                <span class="dt-column-title" role="button">
+                                                    No
+                                                </span>
                                             </th>
                                             <th class="sorting sorting_asc" tabindex="0" aria-sort="ascending" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Kategori: activate to sort column descending" style="width: 194.2px;">
-                                                Judul Post
+                                                <span class="dt-column-title" role="button">
+                                                    Kategori
+                                                </span>
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Kategori: activate to sort column ascending" style="width: 250.2px;">
+                                                <span class="dt-column-title" role="button">
+                                                    Judul
+                                                </span>
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Keterangan: activate to sort column ascending" style="width: 293.2px;">
-                                                Keterangan
+                                                <span class="dt-column-title" role="button">
+                                                    Deskripsi
+                                                </span>
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Rating: activate to sort column ascending" style="width: 194.2px;">
+                                                <span class="dt-column-title" role="button">
+                                                    Status
+                                                </span>
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 134.2px;">
-                                                Tanggal
+                                                <span class="dt-column-title" role="button">
+                                                    Tanggal
+                                                </span>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Kategori: activate to sort column ascending" style="width: 250.2px;">
+                                                <span class="dt-column-title" role="button">
+                                                    File
+                                                </span>
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Kategori: activate to sort column ascending" style="width: 194.2px;">
-                                                Butki Photo
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Kategori: activate to sort column ascending" style="width: 194.2px;">
-                                                Status
+                                                <span  class="dt-column-title" role="button">
+                                                    Photo Banner
+                                                </span>
                                             </th>
                                             <th aria-controls="dataTable" rowspan="1" colspan="1" style="width: 134.2px;">
                                                 Aksi
@@ -83,90 +82,54 @@
                                         <tr>
                                             <th rowspan="1" colspan="1">No</th>
                                             <th rowspan="1" colspan="1">Kategori</th>
-                                            <th rowspan="1" colspan="1">Judul Post</th>
-                                            <th rowspan="1" colspan="1">Keterangan</th>
-                                            <th rowspan="1" colspan="1">Tanggal</th>
-                                            <th rowspan="1" colspan="1">Butki Photo</th>
+                                            <th rowspan="1" colspan="1">Judul</th>
+                                            <th rowspan="1" colspan="1">Deskripsi</th>
                                             <th rowspan="1" colspan="1">Status</th>
+                                            <th rowspan="1" colspan="1">Tanggal</th>
+                                            <th rowspan="1" colspan="1">File</th>
+                                            <th rowspan="1" colspan="1">Photo Banner</th>
                                             <th rowspan="1" colspan="1">Aksi</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
+                                        @foreach($feed as $data)
                                         <tr class="odd">
-                                            <td class="">1</td>
-                                            <td class="">Fasilitas</td>
-                                            <td class="">Taman Inspiratif: Semangat Berkarya Mahasiswa</td>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $data->kategori }}</td>
+                                            <td>{{ $data->judul }}</td>
                                             <td class="">
-                                                <span class="d-inline-block text-truncate" style="max-width: 300px;">
-                                                    Lorem ipsum sit almet emit jdsagisdui sbdhabdaduihsd asudhaiushdisauasudhaiushdisau asudhaiushdisau
+                                                <span class="d-inline-block text-truncate" 
+                                                style="max-width: 300px; max-height: 5em; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
+                                                    {!! clean($data->deskripsi) !!}
                                                 </span>
                                             </td>
-                                            <td class="">12/12/2024</td>
+
+                                            <td>{{ $data->status }}</td>
+                                            <td>{{ $data->created_at->format('d/m/Y') }}</td>
                                             <td>
-                                                <img src="#" alt="Bukti Photo" style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%;">
+                                                @if($data->doc_feed)
+                                                    <a href="{{ asset('storage/' . $data->doc_feed) }}" target="_blank">Lihat Dokumen</a>
+                                                @else
+                                                    Tidak ada File
+                                                @endif
                                             </td>
-                                            <td class="">Belum diuploud</td>
+                                            <td>
+                                                @if($data->img_banner)
+                                                    <img src="{{ asset('storage/' . str_replace('public/', '', $data->img_banner)) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;">
+                                                @else
+                                                    Tidak ada photo
+                                                @endif
+                                            </td>
+
                                             <td class="">
-                                                <a href="{{ route('feed.view') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> View </a>
+                                                <a href="{{ route('feed.view', $data->id) }}" class="btn btn-primary">View</a>
                                             </td>
                                         </tr>
-                                        <tr class="even">
-                                            <td class="">2</td>
-                                            <td class="">Fasilitas</td>
-                                            <td class="">Taman Inspiratif: Semangat Berkarya Mahasiswa</td>
-                                            <td class="">
-                                                <span class="d-inline-block text-truncate" style="max-width: 300px;">
-                                                    Lorem ipsum sit almet emit jdsagisdui sbdhabdaduihsd asudhaiushdisauasudhaiushdisau asudhaiushdisau
-                                                </span>
-                                            </td>
-                                            <td class="">12/12/2024</td>
-                                            <td>
-                                                <img src="#" alt="Bukti Photo" style="height: 40px; width: 40px; object-fit: cover; border-radius: 50%;">
-                                            </td>
-                                            <td class="">Belum diuploud</td>
-                                            <td class="">
-                                                <a href="{{ route('pengaduan.view') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"> View </a>
-                                            </td>
-                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12 mb-2">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">
-                                        Showing 1 to 10 of 57 entries
-                                    </div>
-                                    <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
-                                        <ul class="pagination mb-0">
-                                            <li class="paginate_button page-item previous disabled" id="dataTable_previous">
-                                                <a href="#" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
-                                            </li>
-                                            <li class="paginate_button page-item active">
-                                                <a href="#" aria-controls="dataTable" data-dt-idx="1" tabindex="0" class="page-link">1</a>
-                                            </li>
-                                            <li class="paginate_button page-item">
-                                                <a href="#" aria-controls="dataTable" data-dt-idx="2" tabindex="0" class="page-link">2</a>
-                                            </li>
-                                            <li class="paginate_button page-item">
-                                                <a href="#" aria-controls="dataTable" data-dt-idx="3" tabindex="0" class="page-link">3</a>
-                                            </li>
-                                            <li class="paginate_button page-item">
-                                                <a href="#" aria-controls="dataTable" data-dt-idx="4" tabindex="0" class="page-link">4</a>
-                                            </li>
-                                            <li class="paginate_button page-item">
-                                                <a href="#" aria-controls="dataTable" data-dt-idx="5" tabindex="0" class="page-link">5</a>
-                                            </li>
-                                            <li class="paginate_button page-item next" id="dataTable_next">
-                                                <a href="#" aria-controls="dataTable" data-dt-idx="6" tabindex="0" class="page-link">Next</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -177,6 +140,42 @@
 <!-- External Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Inisialisasi DataTables
+        var table = $('#dataTable').DataTable({
+            // paging: true
+            lengthMenu: [5, 10, 15],
+            language: {
+                info: 'Memperlihatkan halaman  _PAGE_ of _PAGES_',
+                infoEmpty: 'Tidak ada data',
+                infoFiltered: '(filtered from _MAX_ total records)',
+                lengthMenu: 'Tampilkan _MENU_ per page',
+                zeroRecords: 'Data tidak ada - sorry'
+            },
+            dom: '<"row"<"col-md-6 d-flex align-items-center"l<"dataTables_length">><"col-md-6 d-flex justify-content-end align-items-center"f>>t<"row"<"col-md-12 d-flex justify-content-between align-items-center"ip>>',
+        });
+
+        // Mengatur ulang jumlah data yang ditampilkan ketika dropdown berubah
+        $('select[name="dataTable_length"]').change(function() {
+            var length = $(this).val(); // Mendapatkan nilai pilihan dropdown
+            table.page.len(length).draw(); // Mengatur jumlah data yang ditampilkan dan merender ulang tabel
+        });
+    });
+</script>
+<style>
+    /* Mengatur lebar input pencarian */
+    .dataTables_filter input {
+        width: 150px; /* Atur sesuai kebutuhan */
+    }
+
+    /* Mengatur lebar dropdown jumlah data per halaman */
+    .dataTables_length select {
+        width: auto; /* Atur sesuai kebutuhan */
+    }
+</style>
 
 </body>
 </html>

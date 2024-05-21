@@ -12,7 +12,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/ico" href="{{ asset('storage/uploads/logo_pemkab_demak32.ico') }}">
     
-    <title>USM HUB | Pengaduan</title>
+    <title>USM HUB | Data Mahasiswa </title>
 </head>
 <body>
 
@@ -23,7 +23,7 @@
         <!--table-->
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary"> Report Pengaduan</h6>
+                <h6 class="m-0 font-weight-bold text-primary"> Data Mahasiswa</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -38,33 +38,28 @@
                                                     No
                                                 </span>
                                             </th>
+                                            <th class="sorting sorting_asc" tabindex="0" aria-sort="ascending" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Kategori: activate to sort column descending" style="width: 194.2px;">
+                                                <span class="dt-column-title" role="button">
+                                                    Nama Lengkap
+                                                </span>
+                                            </th>
                                             <th class="sorting sorting_asc" tabindex="0" aria-sort="ascending" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="NIM: activate to sort column descending" style="width: 194.2px;">
                                                 <span class="dt-column-title" role="button">
                                                     NIM
-                                                </span>
-                                            </th>
-                                            <th class="sorting sorting_asc" tabindex="0" aria-sort="ascending" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Kategori: activate to sort column descending" style="width: 194.2px;">
-                                                <span class="dt-column-title" role="button">
-                                                    Kategori
                                                 </span>
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Kategori: activate to sort column ascending" style="width: 194.2px;">
                                                 <span class="dt-column-title" role="button"> 
                                                     Program Studi
                                                 </span>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Keterangan: activate to sort column ascending" style="width: 293.2px;">
-                                                <span class="dt-column-title" role="button">
-                                                    Keterangan
-                                                </span>
-                                            </th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 134.2px;">
                                                 <span class="dt-column-title" role="button">
-                                                    Tanggal
+                                                    Tanggal Lahir
                                                 </span>
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Kategori: activate to sort column ascending" style="width: 194.2px;">
                                                 <span class="dt-column-title" role="button">
-                                                    Butki Photo
+                                                    Gender
                                                 </span>
                                             </th>
                                             <th aria-controls="dataTable" rowspan="1" colspan="1" style="width: 134.2px;">
@@ -75,37 +70,29 @@
                                     <tfoot>
                                         <tr>
                                             <th rowspan="1" colspan="1">No</th>
+                                            <th rowspan="1" colspan="1">Nama Lengkap</th>
                                             <th rowspan="1" colspan="1">NIM</th>
-                                            <th rowspan="1" colspan="1">Kategori</th>
                                             <th rowspan="1" colspan="1">Program Studi</th>
-                                            <th rowspan="1" colspan="1">Keterangan</th>
-                                            <th rowspan="1" colspan="1">Tanggal</th>
-                                            <th rowspan="1" colspan="1">Butki Photo</th>
+                                            <th rowspan="1" colspan="1">Tanggal Lahir</th>
+                                            <th rowspan="1" colspan="1">Gender</th>
                                             <th rowspan="1" colspan="1">Aksi</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        @foreach($pengaduan as $aduan)
+                                        @foreach($users as $user)
                                         <tr class="odd">
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $aduan->user->username }}</td>
-                                            <td>{{ $aduan->jenis_pengaduan }}</td>
-                                            <td>{{ $aduan->program_studi }}</td>
-                                            <td class="">
-                                                <span class="d-inline-block text-truncate" style="max-width: 300px;">
-                                                    {{ $aduan->keterangan }}
-                                                </span>
-                                            </td>
-                                            <td>{{ $aduan->created_at->format('d/m/Y') }}</td>
+                                            <td>{{ $user->first_name }} {{ $user->last_name }}</td>
+                                            <td>{{ $user->username }}</td>
+                                            <td>{{ $user->progdi }}</td>
                                             <td>
-                                                @if($aduan->bukti_photo)
-                                                    <img src="{{ asset('storage/photos/' . $aduan->bukti_photo) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;">
-                                                @else
-                                                    Tidak ada photo
+                                                @if($user->tgl_lahir)
+                                                    {{ \Carbon\Carbon::parse($user->tgl_lahir)->format('d/m/Y') }}
                                                 @endif
                                             </td>
+                                            <td>{{ $user->gender }}</td>
                                             <td class="">
-                                                <a href="{{ route('pengaduan.view', $aduan->id) }}" class="btn btn-primary">View</a>
+                                                <a href="{{ route('users.view', $user->id) }}" class="btn btn-primary">View</a>
                                             </td>
                                         </tr>
                                         @endforeach
