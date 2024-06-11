@@ -57,15 +57,19 @@
                                                     Keterangan
                                                 </span>
                                             </th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Rating: activate to sort column ascending" style="width: 194.2px;">
+                                            <th data-dt-column="0" class="sorting sorting_desc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="No: activate to sort column ascending" aria-sort="descending" style="width: 65.2px;">
                                                 <span class="dt-column-title" role="button">
                                                     Rating
                                                 </span>
                                             </th>
-                                            </th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 134.2px;">
                                                 <span class="dt-column-title" role="button">
                                                     Tanggal
+                                                </span>
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Rating: activate to sort column ascending" style="width: 194.2px;">
+                                                <span class="dt-column-title" role="button">
+                                                    Status
                                                 </span>
                                             </th>
                                             <th aria-controls="dataTable" rowspan="1" colspan="1" style="width: 134.2px;">
@@ -80,7 +84,9 @@
                                             <th rowspan="1" colspan="1">Kategori</th>
                                             <th rowspan="1" colspan="1">Program Studi</th>
                                             <th rowspan="1" colspan="1">Keterangan</th>
+                                            <th rowspan="1" colspan="1">Rating</th>
                                             <th rowspan="1" colspan="1">Tanggal</th>
+                                            <th rowspan="1" colspan="1">Status</th>
                                             <th rowspan="1" colspan="1">Aksi</th>
                                         </tr>
                                     </tfoot>
@@ -98,6 +104,7 @@
                                             </td>
                                             <td>{{ $data->rating }}</td>
                                             <td>{{ $data->created_at->format('d/m/Y') }}</td>
+                                            <td>{{ $data->status }}</td>
                                             <td class="">
                                                 <a href="{{ route('aspirasi.view', $data->id) }}" class="btn btn-primary">View</a>
                                             </td>

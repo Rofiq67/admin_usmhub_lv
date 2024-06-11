@@ -21,4 +21,13 @@ class AspirasiController extends Controller
         $aspirasi = Aspirasi::findOrFail($id);
         return view('aspirasi.view', compact('aspirasi'));
     }
+
+    public function updateStatus($id, $status)
+    {
+        $aduan = Aspirasi::findOrFail($id);
+        $aduan->status = $status;
+        $aduan->save();
+
+        return redirect()->route('aspirasi.view', $id)->with('success', 'Status Aspirasi berhasil diubah.');
+    }
 }

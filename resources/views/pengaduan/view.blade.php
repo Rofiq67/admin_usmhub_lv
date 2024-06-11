@@ -32,7 +32,7 @@
                             <div class="col-sm 12">
                                 <!--itemnya-->
                                 <table class="table table-bordered dataTable" id="dataTable"  width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
-                                     <tr>
+                                    <tr>
                                         <th>NIM</th>
                                         <td>{{ $pengaduan->user->username }}</td>
                                     </tr>
@@ -71,17 +71,75 @@
                                     <tr>
                                         <th>Status</th>
                                         <td>
-                                            <a href="#" class="btn btn-primary"> Belum dibaca </a>
-                                            <a href="#" type="button" class="btn btn-outline-primary"> Ditindaklanjuti </a>
-                                            <a href="#" type="button" class="btn btn-outline-primary"> Selesai </a>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                {{ $pengaduan->status }}
+                                                <div>
+                                                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#confirmDitindaklanjutiModal">Ditindaklanjuti</button>
+                                                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#confirmSelesaiModal">Selesai</button>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
+
+                                    {{-- Modal for Ditindaklanjuti --}}
+                                    <div class="modal fade" id="confirmDitindaklanjutiModal" tabindex="-1" role="dialog" aria-labelledby="confirmDitindaklanjutiModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="confirmDitindaklanjutiModalLabel">Konfrimasi Update Status</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Apakah anda yakin merubah status menjadi "Ditindaklanjuti"?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                    <form action="{{ route('pengaduan.updateStatus', ['id' => $pengaduan->id, 'status' => 'Ditindaklanjuti']) }}" method="POST" style="display:inline-block;">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit" class="btn btn-primary">Ditindaklanjuti</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Modal for Selesai --}}
+                                    <div class="modal fade" id="confirmSelesaiModal" tabindex="-1" role="dialog" aria-labelledby="confirmSelesaiModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="confirmSelesaiModalLabel">Konfrimasi Update Status</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Apakah anda yakin merubah status menjadi "Selesai"?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                    <form action="{{ route('pengaduan.updateStatus', ['id' => $pengaduan->id, 'status' => 'Selesai']) }}" method="POST" style="display:inline-block;">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit" class="btn btn-primary">Selesai</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
                                 </table>
                                 
-                                {{-- Tombol untuk kirim pesan dan aksi lain --}}
-                                <div class="d-flex justify-content-end mt-4 mb-2">
-                                    <a href="{{ route('chat.room_chat') }}" type="button" class="btn btn-danger">Kirim Pesan</a>
-                                </div>
+                                {{-- <div class="d-flex justify-content-end mt-4 mb-2">
+                                    <a href="{{ route('room.users', ['userId' => $pengaduan->user->id]) }}" type="button" class="btn btn-danger">Kirim Pesan</a>
+                                </div> --}}
+
+
                             </div>
                         </div>
                     </div>
@@ -94,6 +152,7 @@
 <!-- External Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </body>
 </html>

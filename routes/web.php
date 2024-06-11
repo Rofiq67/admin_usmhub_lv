@@ -31,9 +31,12 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     Route::get('/pengaduan', [AduanController::class, 'index'])->name('pengaduan.index');
     Route::get('/pengaduan/view/{id}', [AduanController::class, 'view'])->name('pengaduan.view');
+    Route::put('/pengaduan/updateStatus/{id}/{status}', [AduanController::class, 'updateStatus'])->name('pengaduan.updateStatus');
 
     Route::get('/aspirasi', [AspirasiController::class, 'index'])->name('aspirasi.index');
     Route::get('/aspirasi/view/{id}', [AspirasiController::class, 'view'])->name('aspirasi.view');
+    Route::put('/aspirasi/updateStatus/{id}/{status}', [AspirasiController::class, 'updateStatus'])->name('aspirasi.updateStatus');
+
 
     Route::get('/feed', [FeedController::class, 'index'])->name('feed.index');
     Route::get('/feed/create', [FeedController::class, 'create'])->name('feed.create');
@@ -48,5 +51,8 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/datamhs', [UserController::class, 'index'])->name('users.index');
     Route::get('/datamhs/view/{id}', [UserController::class, 'view'])->name('users.view');
 
-    Route::get('/chatroom', [ChatController::class, 'index'])->name('chat.room_chat');
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::get('/chat/room/{roomId}', [ChatController::class, 'roomUsers'])->name('room.users');
+    Route::post('/chat/send-message', [ChatController::class, 'sendMessage'])->name('chat.send.message');
+    Route::post('/chat/send-message/{userId}', [ChatController::class, 'sendChatToUser'])->name('chat.send.message.user');
 });

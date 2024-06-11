@@ -49,11 +49,15 @@
                         <trix-editor input="deskripsi"></trix-editor>
                     </div>
                     <div class="mb-3">
-                        <label for="doc_feed" class="form-label">File</label>
+                        <label for="doc_feed" class="form-label">File ( pdf - max 2mb )</label>
                         <input type="file" class="form-control" name="doc_feed" id="doc_feed">
+                        @error('doc_feed')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
+
                     <div class="mb-3">
-                        <label for="photo" class="form-label">Photo Banner</label>
+                        <label for="photo" class="form-label">Photo Banner ( jpg, jpeg, png - max : 2mb )</label>
                         <input type="file" class="form-control" name="img_banner" id="photo" required>
                     </div>
                     <div class="mb-3">
@@ -62,6 +66,24 @@
                     </div>
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                    {{-- modal confirm create  --}}
+                    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmationModalLabel">Konfirmasi Simpan Data</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Apakah Anda yakin ingin menyimpan data feed ini?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-primary">Ya, Simpan Data</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -76,6 +98,18 @@
 <script>
     document.addEventListener('trix-attachment-add', function(event) {
         event.preventDefault();  // This line disables attachments
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        // Tampilkan modal saat tombol "Simpan" ditekan
+        $('form').submit(function(e) {
+            e.preventDefault(); // Mencegah form submit langsung
+
+            // Tampilkan modal konfirmasi
+            $('#confirmationModal').modal('show');
+        });
     });
 </script>
 </body>

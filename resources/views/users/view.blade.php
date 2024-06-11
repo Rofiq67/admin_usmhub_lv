@@ -34,7 +34,7 @@
                                 <table class="table table-bordered dataTable" id="dataTable"  width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                     <tr>
                                         <th>Nama lengkap</th>
-                                        <td>{{ $users->first_name }}{{ $users->last_name }}</td>
+                                        <td>{{ $users->first_name }} {{ $users->last_name }}</td>
                                     </tr>
                                     <tr>
                                         <th>NIM</th>

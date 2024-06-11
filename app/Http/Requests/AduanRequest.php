@@ -18,7 +18,8 @@ class AduanRequest extends FormRequest
             'program_studi' => 'required|in:Teknik Informatika,Sistem Informasi,Ilmu Komunikasi,Pariwisata',
             'keterangan' => 'required|string',
             'rating' => 'nullable|integer|min:1|max:5', // Jika diperlukan
-            'bukti_photo' => 'nullable|file|mimes:jpg,jpeg,png|max:2048', // Maksimum 2MB
+            'bukti_photo' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+            'status' => 'required|in:Belum Dibaca,Ditindaklanjuti,Selesai',
         ];
     }
 }

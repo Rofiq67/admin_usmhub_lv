@@ -69,7 +69,7 @@
                                             @endif
                                         </td>
                                     </tr>
-                                    <tr>
+                                    {{-- <tr>
                                         <th>Status</th>
                                         <td>
                                             <div class="d-flex justify-content-between align-items-center">
@@ -85,7 +85,7 @@
                                                 @endif
                                             </div>
                                         </td>
-                                    </tr>
+                                    </tr> --}}
 
                                     <tr>
                                         <th>Tanggal</th>
@@ -131,24 +131,24 @@
                                 </div>
 
                                 <!-- upload  -->
-<div class="modal fade" id="confirmUploadModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Upload</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Apakah Anda yakin ingin mengupload feed ini?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <!-- Tambahkan event onclick yang memanggil fungsi confirmUpload() -->
-                <button type="button" class="btn btn-primary" onclick="confirmUpload()">Ya, Upload</button>
-            </div>
-        </div>
-    </div>
-</div>
+                                {{-- <div class="modal fade" id="confirmUploadModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Upload</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Apakah Anda yakin ingin mengupload feed ini?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                <!-- Tambahkan event onclick yang memanggil fungsi confirmUpload() -->
+                                                <button type="button" class="btn btn-primary" onclick="confirmUpload()">Ya, Upload</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> --}}
 
                         </div>
                     </div>
@@ -164,7 +164,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-<script>
+{{-- <script>
     function uploadFeed(feedId) {
         // Tampilkan modal konfirmasi sebelum upload
         $('#confirmUploadModal').modal('show');
@@ -216,7 +216,7 @@
         };
         toastr[type](message);
     }
-</script>
+</script> --}}
 
 </body>
 </html>

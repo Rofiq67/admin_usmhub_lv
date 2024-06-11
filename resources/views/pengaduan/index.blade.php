@@ -52,6 +52,7 @@
                                                 <span class="dt-column-title" role="button"> 
                                                     Program Studi
                                                 </span>
+                                            </th>
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Keterangan: activate to sort column ascending" style="width: 293.2px;">
                                                 <span class="dt-column-title" role="button">
                                                     Keterangan
@@ -65,6 +66,11 @@
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Kategori: activate to sort column ascending" style="width: 194.2px;">
                                                 <span class="dt-column-title" role="button">
                                                     Butki Photo
+                                                </span>
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Kategori: activate to sort column ascending" style="width: 194.2px;">
+                                                <span class="dt-column-title" role="button"> 
+                                                    Status
                                                 </span>
                                             </th>
                                             <th aria-controls="dataTable" rowspan="1" colspan="1" style="width: 134.2px;">
@@ -81,6 +87,7 @@
                                             <th rowspan="1" colspan="1">Keterangan</th>
                                             <th rowspan="1" colspan="1">Tanggal</th>
                                             <th rowspan="1" colspan="1">Butki Photo</th>
+                                            <th rowspan="1" colspan="1">Status</th>
                                             <th rowspan="1" colspan="1">Aksi</th>
                                         </tr>
                                     </tfoot>
@@ -104,6 +111,7 @@
                                                     Tidak ada photo
                                                 @endif
                                             </td>
+                                            <td>{{ $aduan->status }}</td>
                                             <td class="">
                                                 <a href="{{ route('pengaduan.view', $aduan->id) }}" class="btn btn-primary">View</a>
                                             </td>

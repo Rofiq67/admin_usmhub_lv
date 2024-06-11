@@ -19,7 +19,8 @@ class Aduan extends Model
         'program_studi',
         'keterangan',
         'rating',
-        'bukti_photo'
+        'bukti_photo',
+        'status'
     ];
 
     // Atribut yang harus disembunyikan dalam JSON

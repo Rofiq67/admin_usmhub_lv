@@ -61,10 +61,40 @@
                                     <tr>
                                         <th>Status</th>
                                         <td>
-                                            <a href="#" class="btn btn-primary"> Belum dibaca </a>
-                                            <a href="#" type="button" class="btn btn-outline-primary"> Telah diterima </a>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                {{ $aspirasi->status }}
+                                                <div>
+                                                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#confirmTelahditerimaModal">Telah diterima</button>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
+
+                                    {{-- Modal for Telah diterima --}}
+                                    <div class="modal fade" id="confirmTelahditerimaModal" tabindex="-1" role="dialog" aria-labelledby="confirmTelahditerimaModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="confirmTelahditerimaModalLabel">Konfrimasi Update Status</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Apakah anda yakin merubah status menjadi "Telah diterima"?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                    <form action="{{ route('aspirasi.updateStatus', ['id' => $aspirasi->id, 'status' => 'Telah diterima']) }}" method="POST" style="display:inline-block;">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit" class="btn btn-primary">Diterima</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </table>
                             </div>
                         </div>

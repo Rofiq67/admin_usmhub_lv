@@ -26,6 +26,7 @@ class AspirasiRequest extends FormRequest
             'program_studi' => 'required|in:Teknik Informatika,Sistem Informasi,Ilmu Komunikasi,Pariwisata',
             'keterangan' => 'required|string',
             'rating' => 'nullable|integer|min:1|max:5', // Jika diperlukan
+            'status' => 'required|in:Belum Dibaca,Telah diterima',
         ];
     }
 }

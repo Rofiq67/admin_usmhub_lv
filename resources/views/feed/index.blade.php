@@ -20,6 +20,39 @@
 
 @section('contents')
     <div class="container-fluid">
+        <!-- Toast Notifikasi -->
+        <div id="toast-container" class="toast-container">
+            @if(session('success'))
+                <div class="toast border-1" role="alert" aria-live="assertive"  data-delay="3000" aria-atomic="true" style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
+                    <div class="toast-header">
+                        <div class="rounded me-2 bg-primary" style="width: 20px; height: 20px;"></div> <!-- Kotak berwarna biru untuk penambahan data -->
+                        <strong class="mr-auto">Notifikasi</strong>
+                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="toast-body">
+                        {{ session('success') }}
+                    </div>
+                </div>
+            @endif
+
+            @if(session('danger'))
+                <div class="toast border-1" role="alert" aria-live="assertive"  data-delay="3000" aria-atomic="true" style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
+                    <div class="toast-header">
+                        <div class="rounded me-2 bg-danger" style="width: 20px; height: 20px;"></div> 
+                        <strong class="mr-auto">Notifikasi</strong>
+                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="toast-body bg-light">
+                        {{ session('danger') }}
+                    </div>
+                </div>
+            @endif
+        </div>
+
         <!--table-->
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
@@ -165,6 +198,15 @@
         });
     });
 </script>
+
+<script>
+    $(document).ready(function() {
+        // Tampilkan toast notifikasi saat halaman dimuat
+        $('.toast').toast('show');
+    });
+</script>
+
+
 <style>
     /* Mengatur lebar input pencarian */
     .dataTables_filter input {

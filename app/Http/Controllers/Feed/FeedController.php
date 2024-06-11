@@ -35,6 +35,11 @@ class FeedController extends Controller
     {
         $data = $request->validated();
 
+        if ($request->hasFile('doc_feed') && !$request->file('doc_feed')->getClientOriginalExtension() == 'pdf') {
+            return redirect()->back()->with('error', 'File harus berupa PDF.');
+        }
+
+
         if ($request->hasFile('doc_feed')) {
             $data['doc_feed'] = $request->file('doc_feed')->store('documents', 'public');
         }
@@ -51,13 +56,12 @@ class FeedController extends Controller
     }
 
 
-
-    private function cleanTrixContent($content)
-    {
-        // Hapus tag <div> yang tidak diperlukan
-        $content = preg_replace('/<div>(.*?)<\/div>/', '$1', $content);
-        return $content;
-    }
+    // private function cleanTrixContent($content)
+    // {
+    //     // Hapus tag <div> yang tidak diperlukan
+    //     $content = preg_replace('/<div>(.*?)<\/div>/', '$1', $content);
+    //     return $content;
+    // }
 
 
 
@@ -117,34 +121,24 @@ class FeedController extends Controller
         $feed = Feed::findOrFail($id);
         $feed->delete();
 
-        return redirect()->route('feed.index')->with('success', 'Feed berhasil dihapus.');
+        return redirect()->route('feed.index')->with('danger', 'Feed berhasil dihapus.');
     }
 
-    public function upload($id)
-    {
-        $feed = Feed::findOrFail($id);
+    // public function uploadFeed($id)
+    // {
+    //     $feed = Feed::find($id);
 
-        if (!$feed) {
-            return redirect()->back()->with('error', 'Feed not found');
-        }
+    //     if (!$feed) {
+    //         return redirect()->back()->with('error', 'Feed tidak ditemukan.');
+    //     }
 
-        // Update status feed
-        $feed->uploaded = true;
-        $feed->save();
+    //     // Proses upload feed di sini
 
-        // Mengirim feed ke API user mobile
-        $client = new \GuzzleHttp\Client();
-        $response = $client->post('https://api.usersmobile.com/feed/latest', [
-            'json' => $feed->toArray(),
-            'headers' => [
-                'Authorization' => 'Bearer ' . env('API_USER_MOBILE_TOKEN'),
-            ],
-        ]);
+    //     // Jika upload berhasil
+    //     $feed->uploaded = true;
+    //     $feed->status = 'Terupload'; // Ubah status sesuai kebutuhan
+    //     $feed->save();
 
-        if ($response->getStatusCode() == 200) {
-            return redirect()->route('feed.view', $feed->id)->with('success', 'Feed berhasil di-upload');
-        } else {
-            return redirect()->back()->with('error', 'Gagal meng-upload feed');
-        }
-    }
+    //     return redirect()->route('view.feed', $feed->id)->with('success', 'Feed berhasil diupload.');
+    // }
 }
