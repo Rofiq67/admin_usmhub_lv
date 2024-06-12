@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Chat\ChatController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Feed\FeedController;
+use App\Http\Controllers\Komentar\KomentarController;
 use App\Http\Controllers\User\UserController;
 use App\Models\Aduan;
 use Illuminate\Support\Facades\Route;
@@ -32,7 +33,13 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/pengaduan', [AduanController::class, 'index'])->name('pengaduan.index');
     Route::get('/pengaduan/view/{id}', [AduanController::class, 'view'])->name('pengaduan.view');
     Route::put('/pengaduan/updateStatus/{id}/{status}', [AduanController::class, 'updateStatus'])->name('pengaduan.updateStatus');
+    // 
+    Route::post('/komentar/kirim', [KomentarController::class, 'kirimKomentar'])->name('kirim.komentar');
+    Route::get('/komentar/{id}/edit', [KomentarController::class, 'edit'])->name('komentar.edit');
+    Route::put('/komentar/{id}/update', [KomentarController::class, 'updateKomentar'])->name('komentar.update');
+    Route::delete('/komentar/{id}', [KomentarController::class, 'destroy'])->name('komentar.destroy');
 
+    //
     Route::get('/aspirasi', [AspirasiController::class, 'index'])->name('aspirasi.index');
     Route::get('/aspirasi/view/{id}', [AspirasiController::class, 'view'])->name('aspirasi.view');
     Route::put('/aspirasi/updateStatus/{id}/{status}', [AspirasiController::class, 'updateStatus'])->name('aspirasi.updateStatus');
