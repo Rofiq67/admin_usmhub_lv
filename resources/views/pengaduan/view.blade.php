@@ -14,6 +14,7 @@
     
     <title>USM HUB | View Aduan </title>
     
+    
 </head>
 <body>
 
@@ -76,7 +77,8 @@
                                                 {{ $pengaduan->status }}
                                                 <div>
                                                     <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#confirmDitindaklanjutiModal">Ditindaklanjuti</button>
-                                                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#confirmSelesaiModal">Selesai</button>
+                                                    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#confirmSelesaiModal">Selesai</button>
+                                                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#confirmDitolakModal">Ditolak</button>
                                                 </div>
                                             </div>
                                         </td>
@@ -131,73 +133,111 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    {{-- Modal for Ditolak--}}
+                                    <div class="modal fade" id="confirmDitolakModal" tabindex="-1" role="dialog" aria-labelledby="confirmDitolakModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="confirmDitolakModalLabel">Konfrimasi Update Status</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Apakah anda yakin untuk <b>menolak</b> aduan ini?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                    <form action="{{ route('pengaduan.updateStatus', ['id' => $pengaduan->id, 'status' => 'Ditolak']) }}" method="POST" style="display:inline-block;">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit" class="btn btn-danger">Tolak</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </table>
                                 
                                 {{-- Fitur Riwayat Komentar --}}
-                                
-                                <h5 class="mb-4 font-weight-bold text-primary card-header py-3 d-flex justify-content-between">Komentar</h5>
-                                <div class="container bg-body-tertiary">
-                                    <div class="mt-4" style="max-height: 500px; overflow-y: auto;">
-                                        @foreach($pengaduan->comments as $komen)
-                                        <div class="mb-2 mt-2">
-                                            <div class="comment-box mt-2 rounded d-inline-block">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <h6>{{ $komen->user->first_name }} {{ $komen->user->last_name }}</h6>
-                                                        <div class="dropdown">
-                                                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#editModal{{ $komen->id }}">Edit</a>
-                                                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteModal{{ $komen->id }}">Hapus</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                @if($komen->file)
-                                                    @if(in_array(pathinfo($komen->file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
-                                                        <!-- Gambar -->
-                                                        <div>
-                                                            <a href="{{ asset('storage/' . $komen->file) }}">
-                                                                <img class="img-thumbnail mb-2" src="{{ asset('storage/' . $komen->file) }}" alt="File" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;">
-                                                            </a>
-                                                        </div>
-                                                    @else
-                                                        <!-- File -->
-                                                        <a href="{{ asset('storage/' . $komen->file) }}" download>
-                                                            <div class="d-flex align-items-center badge text-wrap fs-6 p-2 mb-2 @if($komen->user->is_admin) bg-primary text-white @elseif($komen->user->id === Auth::user()->id) bg-light @endif">
-                                                                <span class="badge bg-light rounded-circle d-flex justify-content-center align-items-center mr-2" style="width: 30px; height: 30px">
-                                                                    <i class="fa fa-file text-primary"></i>
-                                                                </span>
-                                                                <span>{{ $komen->file }}</span>
-                                                                <span class="badge bg-light rounded-circle d-flex justify-content-center align-items-center ml-2" style="width: 30px; height: 30px">
-                                                                    <i class="fa fa-download text-primary"></i>
-                                                                </span>
-                                                            </div>
-                                                        </a>
-                                                    @endif
-                                                @endif
-                                                <p class=" p-2 badge text-wrap fs-6 @if($komen->user->is_admin) bg-primary text-white @elseif($komen->user->id === Auth::user()->id) bg-light @endif" style="text-align: left;">{{ $komen->text }}</p>
-                                                <span class="comment-time" style="padding-top: 0">
-                                                    @php
-                                                        $commentTime = \Carbon\Carbon::parse($komen->created_at);
-                                                        $now = \Carbon\Carbon::now();
-                                                    @endphp
-                                                    @if($commentTime->isSameDay($now))
-                                                        {{ $commentTime->format('H:i') }}
-                                                    @else
-                                                        {{ $commentTime->format('d/m/Y H:i') }}
-                                                    @endif
-                                                </span>
-                                               
-                                            </div>
-                                        </div>
-
-                                    @endforeach
-
+                                <div class="card">
+                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                                        <h6 class="m-0 font-weight-bold text-primary">Komentar</h6>
                                     </div>
+                                   <div class="card-body" style="max-width: 100%; overflow-x: auto;">
+    <div class="mt-4" style="max-height: 500px; overflow-y: auto;">
+        @foreach($pengaduan->comments as $komen)
+         <div class="mb-2 mt-2 d-flex @if($komen->user->is_admin) flex-column @else flex-column-reverse align-items-end @endif">
+            <div class="comment-box mt-2 rounded d-inline-block @if(!$komen->user->is_admin) text-right float-right d-flex flex-column align-items-end @else float-left d-flex flex-column @endif">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <h6 class="@if(!$komen->user->is_admin) float-left mr-3 @endif">{{ $komen->user->first_name }} {{ $komen->user->last_name }}</h6>
+                        @if($komen->user->is_admin)
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#editModal{{ $komen->id }}">Edit</a>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteModal{{ $komen->id }}">Hapus</a>
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column @if(!$komen->user->is_admin) align-items-end  mr-3 @endif">
+                    @if($komen->file)
+                    @if(in_array(pathinfo($komen->file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
+                    <!-- Gambar -->
+                    <div>
+                        <a href="{{ asset('storage/' . $komen->file) }}">
+                            <img class="img-thumbnail mb-2" src="{{ asset('storage/' . $komen->file) }}" alt="File" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;">
+                        </a>
+                    </div>
+                    @else
+                    <!-- File -->
+                    <div class="p-2 badge mb-2 text-wrap fs-6 rounded @if($komen->user->is_admin) bg-primary text-white @else bg-secondary  text-light @endif" style="text-align: left;width: fit-content;">
+                        <a href="{{ asset('storage/' . $komen->file) }}" download>
+                            <div class="d-flex align-items-center badge text-wrap fs-6 p-2 mb-2 @if($komen->user->is_admin) bg-primary text-white @elseif($komen->user->id === Auth::user()->id) bg-light @endif">
+                                <span class="badge bg-light rounded-circle d-flex justify-content-center align-items-center mr-2" style="width: 30px; height: 30px">
+                                    <i class="fa fa-file @if($komen->user->is_admin) text-primary @else text-secondary @endif"></i>
+                                </span>
+                                <span>{{ $komen->file }}</span>
+                                <span class="badge bg-light rounded-circle d-flex justify-content-center align-items-center ml-2" style="width: 30px; height: 30px">
+                                    <i class="fa fa-download  @if($komen->user->is_admin) text-primary @else text-secondary @endif"></i>
+                                </span>
+                            </div>
+                        </a>
+                    </div>
+                    @endif
+                    @endif
+
+                    <div class="p-2 badge text-wrap fs-6 rounded @if($komen->user->is_admin) bg-primary text-white @else bg-secondary text-light  @endif" style="text-align: left; width: fit-content;">
+                        {{ $komen->text }}
+                    </div>
+                </div>
+
+                <span class="comment-time m-2 @if($komen->user->is_admin) float-left @else float-right mr-3 @endif" style="padding-top: 0">
+                    @php
+                    $commentTime = \Carbon\Carbon::parse($komen->created_at);
+                    $now = \Carbon\Carbon::now();
+                    @endphp
+                    @if($commentTime->isSameDay($now))
+                    {{ $commentTime->format('H:i') }}
+                    @else
+                    {{ $commentTime->format('d/m/Y H:i') }}
+                    @endif
+                </span>
+            </div>
+        </div>
+        @endforeach
+    </div>
+</div>
+
                                 </div>
-                                <form class="mr-4 ml-4 mt-3" action="{{ route('kirim.komentar') }}" method="POST" enctype="multipart/form-data" id="commentForm">
+
+                                <!-- Form untuk menambahkan komentar -->
+                                <form class="mr-4 ml-4 mt-3 position-sticky bottom-0" action="{{ route('kirim.komentar') }}" method="POST" enctype="multipart/form-data" id="commentForm">
                                     @csrf
                                     <input type="hidden" name="aduan_id" value="{{ $pengaduan->id }}">
                                     <div class="input-group mb-3">
@@ -208,7 +248,6 @@
                                         <button class="btn btn-primary" type="submit" id="submitBtn" disabled>Kirim</button>
                                     </div>
                                 </form>
-
 
                                 {{-- modal komentar  --}}
                                 {{-- edit  --}}

@@ -57,9 +57,4 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     Route::get('/datamhs', [UserController::class, 'index'])->name('users.index');
     Route::get('/datamhs/view/{id}', [UserController::class, 'view'])->name('users.view');
-
-    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::get('/chat/room/{roomId}', [ChatController::class, 'roomUsers'])->name('room.users');
-    Route::post('/chat/send-message', [ChatController::class, 'sendMessage'])->name('chat.send.message');
-    Route::post('/chat/send-message/{userId}', [ChatController::class, 'sendChatToUser'])->name('chat.send.message.user');
 });

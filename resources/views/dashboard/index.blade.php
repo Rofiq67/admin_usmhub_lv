@@ -18,87 +18,89 @@
 @section('contents')
     
     <div class="container-fluid">
-        <h2 class="mt-5"><b>Selamat Datang, </b></h2>
+        <h2 class="mt-5"><b>Selamat Datang</b></h2>
 
         <!--Card--->
         <div class="row">
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <div class="col-xl-4 col-md-6 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                    Earnings (Monthly)</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                    Earnings (Annual)</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-info shadow h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                                    Data Aduan
                                 </div>
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col-auto">
-                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress progress-sm mr-2">
-                                            <div class="progress-bar bg-info" role="progressbar"
-                                                style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ \App\Models\Aduan::count() }} aduan
+                                </div>
+                                <div class="text-xs font-weight-medium text-secondary text-uppercase mb-1">
+                                    @if($todayAduanCount > 0)
+                                        +{{ $todayAduanCount }} hari ini
+                                    @else
+                                        0 hari ini
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                <i class="fas fa-info-circle fa-2x text-gray-300"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <div class="col-xl-4 col-md-6 mb-4">
                 <div class="card border-left-warning shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                    Pending Requests</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                    Data Aspirasi
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ \App\Models\Aspirasi::count() }} aspirasi
+                                </div>
+                                 <div class="text-xs font-weight-medium text-secondary text-uppercase mb-1">
+                                    @if($todayAspirasiCount > 0)
+                                        +{{ $todayAspirasiCount }} hari ini
+                                    @else
+                                        0 hari ini
+                                    @endif
+                                </div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                <i class="fas fa-bell fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xl-4 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Data Mahasiswa
+                                </div>
+                                @php
+                                    $totalMahasiswa = \App\Models\User::where('is_admin', false)->count();
+                                @endphp
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ $totalMahasiswa }} Mahasiswa
+                                </div>
+                                <div class="text-xs font-weight-medium text-secondary text-uppercase mb-1">
+                                    @if($todayUserCount > 0)
+                                        +{{ $todayUserCount }} hari ini
+                                    @else
+                                        0 hari ini
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user-circle fa-2x text-gray-300"></i>
                             </div>
                         </div>
                     </div>
@@ -109,73 +111,41 @@
 
         <!--chart-->
         <div class="row">
-            <!-- Area Chart -->
+            <!-- Area line Chart -->
             <div class="col-xl-8 col-lg-7">
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
-                    <div
-                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                        <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                aria-labelledby="dropdownMenuLink">
-                                <div class="dropdown-header">Dropdown Header:</div>
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </div>
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 font-weight-bold text-primary">Chart laporan</h6>
                     </div>
                     <!-- Card Body -->
-                    <div class="card-body">
+                     <div class="card-body">
                         <div class="chart-area">
-                            <canvas id="myAreaChart"></canvas>
+                            <canvas id="myLineChart"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Pie Chart -->
+            <!-- donat Chart -->
             <div class="col-xl-4 col-lg-5">
                 <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
+                    <!-- Card Header - Dropdown klasifikasi jenis aduan/aspirasi -->
                     <div
                         class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                        <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                aria-labelledby="dropdownMenuLink">
-                                <div class="dropdown-header">Dropdown Header:</div>
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </div>
+                        <h6 class="m-0 font-weight-bold text-primary">Klasifikasi laporan</h6>
                     </div>
-                    <!-- Card Body -->
+                    <!-- Card Body data aduan, aspirasi -->
                     <div class="card-body">
                         <div class="chart-pie pt-4 pb-2">
-                            <canvas id="myPieChart"></canvas>
+                            <canvas id="newMyPieChart"></canvas>
                         </div>
                         <div class="mt-4 text-center small">
                             <span class="mr-2">
-                                <i class="fas fa-circle text-primary"></i> Direct
+                                <i class="fas fa-circle text-primary"></i> Aduan
                             </span>
                             <span class="mr-2">
-                                <i class="fas fa-circle text-success"></i> Social
-                            </span>
-                            <span class="mr-2">
-                                <i class="fas fa-circle text-info"></i> Referral
+                                <i class="fas fa-circle text-warning"></i> Aspirasi
                             </span>
                         </div>
                     </div>
@@ -189,6 +159,161 @@
 
 @endsection
 
+{{-- chart --}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{{-- donat chart  --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('newMyPieChart').getContext('2d');
+        const aduanCount = @json($aduanCount);
+        const aspirasiCount = @json($aspirasiCount);
+
+        const newMyPieChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Aduan', 'Aspirasi'],
+                datasets: [{
+                    data: [aduanCount, aspirasiCount],
+                    backgroundColor: ['#007bff', '#ffc107'],
+                    hoverBackgroundColor: ['#0056b3', '#e0a800'],
+                    hoverBorderColor: 'rgba(234, 236, 244, 1)',
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: 'rgb(255,255,255)',
+                    bodyFontColor: '#858796',
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: false
+                },
+                cutoutPercentage: 80,
+            },
+        });
+    });
+</script>
+
+{{-- line chart  --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('myLineChart').getContext('2d');
+        
+        const kategoriAduan = @json($kategoriAduan);
+        const kategoriAspirasi = @json($kategoriAspirasi);
+
+        const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        // Prepare data for Chart.js
+        const prepareData = (data, type) => {
+            let result = { Kebijakan: Array(12).fill(0), Pelayanan: Array(12).fill(0), Fasilitas: Array(12).fill(0) };
+            data.forEach(item => {
+                if (item[type] === 'Kebijakan') result.Kebijakan[item.month - 1] = item.count;
+                if (item[type] === 'Pelayanan') result.Pelayanan[item.month - 1] = item.count;
+                if (item[type] === 'Fasilitas') result.Fasilitas[item.month - 1] = item.count;
+            });
+            return result;
+        };
+
+        const aduan = prepareData(kategoriAduan, 'jenis_pengaduan');
+        const aspirasi = prepareData(kategoriAspirasi, 'jenis_aspirasi');
+
+        const myLineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Aduan - Kebijakan',
+                        data: aduan.Kebijakan,
+                        borderColor: '#007bff',
+                        fill: false
+                    },
+                    {
+                        label: 'Aduan - Pelayanan',
+                        data: aduan.Pelayanan,
+                        borderColor: '#28a745',
+                        fill: false
+                    },
+                    {
+                        label: 'Aduan - Fasilitas',
+                        data: aduan.Fasilitas,
+                        borderColor: '#dc3545',
+                        fill: false
+                    },
+                    {
+                        label: 'Aspirasi - Kebijakan',
+                        data: aspirasi.Kebijakan,
+                        borderColor: '#17a2b8',
+                        fill: false
+                    },
+                    {
+                        label: 'Aspirasi - Pelayanan',
+                        data: aspirasi.Pelayanan,
+                        borderColor: '#ffc107',
+                        fill: false
+                    },
+                    {
+                        label: 'Aspirasi - Fasilitas',
+                        data: aspirasi.Fasilitas,
+                        borderColor: '#fd7e14',
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: 'rgb(255,255,255)',
+                    bodyFontColor: '#858796',
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                scales: {
+                    xAxes: [{
+                        time: {
+                            unit: 'month'
+                        },
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            maxTicksLimit: 12
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        },
+                        gridLines: {
+                            color: 'rgb(234, 236, 244)',
+                            zeroLineColor: 'rgb(234, 236, 244)',
+                            drawBorder: false,
+                            borderDash: [2],
+                            zeroLineBorderDash: [2]
+                        }
+                    }]
+                }
+            }
+        });
+    });
+</script>
 
 <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>

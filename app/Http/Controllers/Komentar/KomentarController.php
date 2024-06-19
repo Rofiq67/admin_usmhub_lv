@@ -48,11 +48,20 @@ class KomentarController extends Controller
     public function updateKomentar(Request $request, $id)
     {
         $request->validate([
-            'text' => 'required|string',
+            'text' => 'nullable|string',
             'file' => 'nullable|file|mimes:jpg,png,pdf,doc,docx|max:2048',
         ]);
 
         $komentar = Komentar::findOrFail($id);
+
+        // Cek apakah pengguna saat ini adalah admin
+        if (Auth::user()->is_admin) {
+            // Jika admin, cek apakah komentar yang akan diupdate adalah milik pengguna lain
+            if ($komentar->user_id != Auth::id()) {
+                return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk memperbarui komentar ini');
+            }
+        }
+
         $komentar->text = $request->text;
 
         if ($request->hasFile('file')) {
@@ -68,6 +77,15 @@ class KomentarController extends Controller
     public function destroy($id)
     {
         $komentar = Komentar::findOrFail($id);
+
+        // Cek apakah pengguna saat ini adalah admin
+        if (Auth::user()->is_admin) {
+            // Jika admin, cek apakah komentar yang akan dihapus adalah milik pengguna lain
+            if ($komentar->user_id != Auth::id()) {
+                return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus komentar ini');
+            }
+        }
+
         $komentar->delete();
         return redirect()->back()->with('success', 'Komentar berhasil dihapus');
     }

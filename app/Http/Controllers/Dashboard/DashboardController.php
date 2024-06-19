@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Aduan;
+use App\Models\Aspirasi;
+use App\Models\User;
+use Carbon\Carbon;
+use DB;
+use Illuminate\Support\Facades\DB as FacadesDB;
 
 class DashboardController extends Controller
 {
@@ -12,8 +17,44 @@ class DashboardController extends Controller
         // Terapkan middleware admin ke metode-metode yang memerlukannya
         $this->middleware('admin');
     }
+
+    // public function index()
+    // {
+    //     return view('dashboard.index');
+    // }
+
     public function index()
     {
-        return view('dashboard.index');
+        $aduanCount = Aduan::count();
+        $aspirasiCount = Aspirasi::count();
+        $todayAduanCount = Aduan::whereDate('created_at', Carbon::today())->count();
+        $todayAspirasiCount = Aspirasi::whereDate('created_at', Carbon::today())->count();
+        $todayUserCount = User::whereDate('created_at', Carbon::today())->count();
+
+
+        $kategoriAduan =
+            Aduan::select(
+                FacadesDB::raw('MONTH(created_at) as month'),
+                'jenis_pengaduan',
+                FacadesDB::raw('count(*) as count')
+            )->groupBy('month', 'jenis_pengaduan')->get();
+
+        $kategoriAspirasi =
+            Aspirasi::select(
+                FacadesDB::raw('MONTH(created_at) as month'),
+                'jenis_aspirasi',
+                FacadesDB::raw('count(*) as count')
+            )->groupBy('month', 'jenis_aspirasi')->get();
+
+
+        return view('dashboard.index', compact(
+            'aduanCount',
+            'aspirasiCount',
+            'kategoriAduan',
+            'kategoriAspirasi',
+            'todayAduanCount',
+            'todayAspirasiCount',
+            'todayUserCount'
+        ));
     }
 }

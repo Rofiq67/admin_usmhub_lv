@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('aduans', function (Blueprint $table) {
-            $table->enum('status', ['Belum Dibaca', 'Ditindaklanjuti', 'Selesai'])->default('Belum Dibaca');
+            $table->enum('status', ['Belum Dibaca', 'Ditindaklanjuti', 'Selesai', 'Ditolak'])->default('Belum Dibaca');
         });
     }
 

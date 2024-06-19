@@ -18,12 +18,6 @@
             <span>Dashboard</span>
         </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('chat.index') }}">
-            <i class='bx bxs-chat'></i>
-            <span>Chat</span>
-        </a>
-    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider">
