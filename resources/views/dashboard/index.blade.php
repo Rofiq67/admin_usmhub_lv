@@ -60,7 +60,7 @@
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
                                     {{ \App\Models\Aspirasi::count() }} aspirasi
                                 </div>
-                                 <div class="text-xs font-weight-medium text-secondary text-uppercase mb-1">
+                                <div class="text-xs font-weight-medium text-secondary text-uppercase mb-1">
                                     @if($todayAspirasiCount > 0)
                                         +{{ $todayAspirasiCount }} hari ini
                                     @else
@@ -116,7 +116,7 @@
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Chart laporan</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Klasifikasi jenis laporan</h6>
                     </div>
                     <!-- Card Body -->
                      <div class="card-body">
@@ -133,19 +133,37 @@
                     <!-- Card Header - Dropdown klasifikasi jenis aduan/aspirasi -->
                     <div
                         class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Klasifikasi laporan</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Program Studi penerima laporan</h6>
                     </div>
                     <!-- Card Body data aduan, aspirasi -->
                     <div class="card-body">
-                        <div class="chart-pie pt-4 pb-2">
+                        <div class="chart-pie pt-6 pb-2">
                             <canvas id="newMyPieChart"></canvas>
                         </div>
-                        <div class="mt-4 text-center small">
+                        <div class="mt-2 text-center small">
                             <span class="mr-2">
-                                <i class="fas fa-circle text-primary"></i> Aduan
+                                <i class="fas fa-circle text-primary"></i> Aduan - Teknik Informatika
                             </span>
                             <span class="mr-2">
-                                <i class="fas fa-circle text-warning"></i> Aspirasi
+                                <i class="fas fa-circle text" style="color: #14A44D"></i> Aduan - Sistem Informasi
+                            </span>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-danger"></i> Aduan - Ilmu Komunikasi
+                            </span>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-secondary"></i> Aduan - Pariwisata
+                            </span>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-info"></i> Aspirasi - Teknik Informatika
+                            </span>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text-warning"></i> Aspirasi - Sistem Informasi
+                            </span>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text" style="color: #fd7e14"></i> Aspirasi - Ilmu Komunikasi
+                            </span>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text" style="color: #332D2D"></i> Aspirasi - Pariwisata
                             </span>
                         </div>
                     </div>
@@ -166,19 +184,34 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const ctx = document.getElementById('newMyPieChart').getContext('2d');
-        const aduanCount = @json($aduanCount);
-        const aspirasiCount = @json($aspirasiCount);
+        const aduanByProgramStudi = @json($aduanByProgramStudi);
+        const aspirasiByProgramStudi = @json($aspirasiByProgramStudi);
+
+        // Extracting labels and data for the chart
+        const labels = aduanByProgramStudi.map(data => data.program_studi);
+        const aduanByProgramStudis = aduanByProgramStudi.map(data => data.count);
+        const aspirasiByProgramStudis = aspirasiByProgramStudi.map(data => data.count);
 
         const newMyPieChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['Aduan', 'Aspirasi'],
-                datasets: [{
-                    data: [aduanCount, aspirasiCount],
-                    backgroundColor: ['#007bff', '#ffc107'],
-                    hoverBackgroundColor: ['#0056b3', '#e0a800'],
-                    hoverBorderColor: 'rgba(234, 236, 244, 1)',
-                }],
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Aduan',
+                        data: aduanByProgramStudis,
+                        backgroundColor: ['#3B71CA', '#14A44D', '#dc3545', '#6c757d'],
+                        hoverBackgroundColor: ['#0056b3', '#1e7e34', '#c82333', '#5a6268'],
+                        hoverBorderColor: 'rgba(234, 236, 244, 1)',
+                    },
+                    {
+                        label: 'Aspirasi',
+                        data: aspirasiByProgramStudis,
+                        backgroundColor: ['#17a2b8', '#ffc107', '#fd7e14', '#343a40'],
+                        hoverBackgroundColor: ['#138496', '#e0a800', '#e36209', '#292d31'],
+                        hoverBorderColor: 'rgba(234, 236, 244, 1)',
+                    }
+                ],
             },
             options: {
                 maintainAspectRatio: false,

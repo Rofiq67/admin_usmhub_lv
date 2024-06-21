@@ -17,16 +17,8 @@ class DashboardController extends Controller
         // Terapkan middleware admin ke metode-metode yang memerlukannya
         $this->middleware('admin');
     }
-
-    // public function index()
-    // {
-    //     return view('dashboard.index');
-    // }
-
     public function index()
     {
-        $aduanCount = Aduan::count();
-        $aspirasiCount = Aspirasi::count();
         $todayAduanCount = Aduan::whereDate('created_at', Carbon::today())->count();
         $todayAspirasiCount = Aspirasi::whereDate('created_at', Carbon::today())->count();
         $todayUserCount = User::whereDate('created_at', Carbon::today())->count();
@@ -46,10 +38,17 @@ class DashboardController extends Controller
                 FacadesDB::raw('count(*) as count')
             )->groupBy('month', 'jenis_aspirasi')->get();
 
+        $aduanByProgramStudi = Aduan::select('program_studi', FacadesDB::raw('count(*) as count'))
+            ->groupBy('program_studi')
+            ->get();
+
+        $aspirasiByProgramStudi = Aspirasi::select('program_studi', FacadesDB::raw('count(*) as count'))
+            ->groupBy('program_studi')
+            ->get();
 
         return view('dashboard.index', compact(
-            'aduanCount',
-            'aspirasiCount',
+            'aduanByProgramStudi',
+            'aspirasiByProgramStudi',
             'kategoriAduan',
             'kategoriAspirasi',
             'todayAduanCount',
