@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable
 {
@@ -19,7 +19,7 @@ class User extends Authenticatable
         'email',
         'img_profile',
         'password',
-        'is_admin',
+        'role',
         'tgl_lahir',
         'progdi',
         'gender',
@@ -35,19 +35,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function isAdmin(): bool
+    public function isSuperAdmin(): bool
     {
-        return $this->is_admin;
+        return $this->role === 'Superadmin';
     }
 
-
-    public function chatRooms()
+    public function isAdmin()
     {
-        return $this->belongsToMany(ChatRoom::class, 'chat_room_users');
+        return $this->role === 'Admin';
     }
 
-    public function chats()
+    public function isUser(): bool
     {
-        return $this->hasMany(Chat::class);
+        return $this->role === 'User';
     }
 }

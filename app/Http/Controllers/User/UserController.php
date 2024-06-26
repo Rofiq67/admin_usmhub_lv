@@ -3,21 +3,30 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 class UserController extends Controller
 {
     public function index()
     {
-        // Mengambil semua pengguna kecuali yang berperan sebagai admin
-        $users = User::where('is_admin', false)->get();
-        return view('users.index', compact('users'));
+        $admin = Auth::user();
+
+        // Jika superadmin atau admin dengan progdi "Dekan FTIK", tampilkan semua user
+        if ($admin->isSuperAdmin() || ($admin->isAdmin() && $admin->progdi == 'Dekan FTIK')) {
+            $datamhs = User::whereNotIn('role', ['superadmin', 'admin'])->get();
+        } else {
+            // Jika admin dengan progdi lain, tampilkan user sesuai dengan progdi admin
+            $datamhs = User::where('progdi', $admin->progdi)->whereNotIn('role', ['superadmin', 'admin'])->get();
+        }
+
+        return view('users.index', compact('datamhs', 'admin'));
     }
 
     public function view($id)
     {
-        $users = User::findOrFail($id);
-        return view('users.view', compact('users'));
+        $user = User::findOrFail($id);
+
+        return view('users.view', compact('user'));
     }
 }

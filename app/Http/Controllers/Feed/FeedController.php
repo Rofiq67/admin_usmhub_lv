@@ -15,14 +15,27 @@ class FeedController extends Controller
 
     public function index()
     {
-        $feed = Feed::all();
-        return view('feed.index', compact('feed'));
+        $user = auth()->user();
+
+        if ($user->role === 'Superadmin') {
+            // Superadmin can see all feeds
+            $feeds = Feed::with('user')->get();
+        } else {
+            $feeds = Feed::with('user')->where('user_id', $user->id)->get();
+        }
+
+        return view('feed.index', compact('feeds'));
     }
 
     public function view($id)
     {
-        // Menampilkan detail feed berdasarkan ID
         $feed = Feed::findOrFail($id);
+
+        // Ensure only the owner or Superadmin can view the feed
+        if (auth()->user()->role !== 'Superadmin' && $feed->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         return view('feed.view', compact('feed'));
     }
 
@@ -34,6 +47,8 @@ class FeedController extends Controller
     public function store(FeedRequest $request)
     {
         $data = $request->validated();
+
+        $data['user_id'] = auth()->id();
 
         if ($request->hasFile('doc_feed') && !$request->file('doc_feed')->getClientOriginalExtension() == 'pdf') {
             return redirect()->back()->with('error', 'File harus berupa PDF.');
@@ -48,97 +63,70 @@ class FeedController extends Controller
             $data['img_banner'] = $request->file('img_banner')->store('photos', 'public');
         }
 
-        $data['status'] = false; // Set default status
-
         Feed::create($data);
 
         return redirect()->route('feed.index')->with('success', 'Feed berhasil dibuat.');
     }
 
-
-    // private function cleanTrixContent($content)
-    // {
-    //     // Hapus tag <div> yang tidak diperlukan
-    //     $content = preg_replace('/<div>(.*?)<\/div>/', '$1', $content);
-    //     return $content;
-    // }
-
-
-
     public function update(FeedRequest $request, $id)
     {
-        // Temukan feed berdasarkan ID
         $feed = Feed::findOrFail($id);
 
-        // Perbarui data feed kecuali img_banner dan doc_feed
-        $feed->kategori = $request->kategori;
-        $feed->judul = $request->judul;
-        $feed->deskripsi = $request->deskripsi;
-        $feed->status = $request->has('status') ? $request->status : false;
+        if (auth()->user()->role !== 'Superadmin' && $feed->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
 
-        // Cek apakah ada file img_banner yang diunggah
+        $feed->update($request->only('kategori', 'judul', 'deskripsi'));
+
         if ($request->hasFile('img_banner')) {
-            // Hapus file img_banner lama jika ada
             $oldImgBannerPath = public_path('storage/' . $feed->img_banner);
             if (File::exists($oldImgBannerPath)) {
                 File::delete($oldImgBannerPath);
             }
-            // Simpan file img_banner yang baru
-            $imgBannerPath = $request->file('img_banner')->store('photos', 'public');
-            $feed->img_banner = $imgBannerPath;
+            $feed->img_banner = $request->file('img_banner')->store('photos', 'public');
         }
 
-        // Cek apakah ada file doc_feed yang diunggah
         if ($request->hasFile('doc_feed')) {
-            // Hapus file doc_feed lama jika ada
             $oldDocFeedPath = public_path('storage/' . $feed->doc_feed);
             if (File::exists($oldDocFeedPath)) {
                 File::delete($oldDocFeedPath);
             }
-            // Simpan file doc_feed yang baru
-            $docFeedPath = $request->file('doc_feed')->store('documents', 'public');
-            $feed->doc_feed = $docFeedPath;
+            $feed->doc_feed = $request->file('doc_feed')->store('documents', 'public');
         }
 
-        // Simpan perubahan
         $feed->save();
 
-        // Redirect ke halaman feed view dengan pesan sukses
         return redirect()->route('feed.view', $feed->id)->with('success', 'Informasi berhasil diperbarui.');
     }
-
-
-
 
     public function edit($id)
     {
         $feed = Feed::findOrFail($id);
+
+        if (auth()->user()->role !== 'Superadmin' && $feed->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         return view('feed.edit', compact('feed'));
     }
 
     public function destroy($id)
     {
         $feed = Feed::findOrFail($id);
+
+        if (auth()->user()->role !== 'Superadmin' && $feed->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        if ($feed->img_banner) {
+            Storage::disk('public')->delete($feed->img_banner);
+        }
+        if ($feed->doc_feed) {
+            Storage::disk('public')->delete($feed->doc_feed);
+        }
+
         $feed->delete();
 
-        return redirect()->route('feed.index')->with('danger', 'Feed berhasil dihapus.');
+        return redirect()->route('feed.index')->with('success', 'Informasi berhasil dihapus.');
     }
-
-    // public function uploadFeed($id)
-    // {
-    //     $feed = Feed::find($id);
-
-    //     if (!$feed) {
-    //         return redirect()->back()->with('error', 'Feed tidak ditemukan.');
-    //     }
-
-    //     // Proses upload feed di sini
-
-    //     // Jika upload berhasil
-    //     $feed->uploaded = true;
-    //     $feed->status = 'Terupload'; // Ubah status sesuai kebutuhan
-    //     $feed->save();
-
-    //     return redirect()->route('view.feed', $feed->id)->with('success', 'Feed berhasil diupload.');
-    // }
 }

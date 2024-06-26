@@ -60,10 +60,6 @@
                         <label for="photo" class="form-label">Photo Banner ( jpg, jpeg, png - max : 2mb )</label>
                         <input type="file" class="form-control" name="img_banner" id="photo" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <input type="text" class="form-control" value="Belum diupload" readonly>
-                    </div>
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>

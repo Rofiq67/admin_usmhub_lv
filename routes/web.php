@@ -15,16 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-// Rute untuk admin
-// Route::get('/login', function () {
-//     return view('auth.login');
-// })->name('auth.login');
-
 Route::get('/login', function () {
     return view('auth.login');
 })->name('auth.login');
 
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
 
 Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout.submit');
@@ -33,6 +29,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/pengaduan', [AduanController::class, 'index'])->name('pengaduan.index');
     Route::get('/pengaduan/view/{id}', [AduanController::class, 'view'])->name('pengaduan.view');
     Route::put('/pengaduan/updateStatus/{id}/{status}', [AduanController::class, 'updateStatus'])->name('pengaduan.updateStatus');
+    Route::put('/pengaduan/forward/{id}', [AduanController::class, 'forwardAduan'])->name('pengaduan.forward');
     // 
     Route::post('/komentar/kirim', [KomentarController::class, 'kirimKomentar'])->name('kirim.komentar');
     Route::get('/komentar/{id}/edit', [KomentarController::class, 'edit'])->name('komentar.edit');
@@ -57,4 +54,10 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     Route::get('/datamhs', [UserController::class, 'index'])->name('users.index');
     Route::get('/datamhs/view/{id}', [UserController::class, 'view'])->name('users.view');
+
+    Route::get('/profile', [AuthController::class, 'profile'])->name('settings.index');
+    Route::get('/profile/{id}/edit', [AuthController::class, 'editProfile'])->name('settings.edit');
+    Route::post('/profile/update', [AuthController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/password/edit', [AuthController::class, 'editPass'])->name('password.edit');
+    Route::post('/password/update', [AuthController::class, 'updatePass'])->name('password.update');
 });

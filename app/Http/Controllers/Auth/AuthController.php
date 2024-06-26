@@ -5,44 +5,44 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\UsersRequest;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class AuthController extends Controller
 {
     public function register(RegisterRequest $request)
     {
-        // register user mobile
-        $request->validated();
+        $validated = $request->validated();
 
-        $userData = [
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ];
+        // Create user
+        $user = User::create([
+            'first_name' => $validated['first_name'],
+            'last_name' => $validated['last_name'],
+            'username' => $validated['username'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => $validated['role'],
+            'tgl_lahir' => $validated['tgl_lahir'],
+            'progdi' => $validated['progdi'],
+            'gender' => $validated['gender'],
+        ]);
 
-        $user = User::create($userData);
+        // Log the user in
+        Auth::login($user);
 
-        // Tambahkan peran admin secara default jika user yang didaftarkan adalah admin
-        if ($request->is_admin) {
-            $user->is_admin = true;
-            $user->save();
-        }
-
-        $token = $user->createToken('usm_hub')->plainTextToken;
-
-        return response([
-            'user' => $user,
-            'token' => $token,
-        ], 201);
+        // Redirect to dashboard
+        return redirect()->route('dashboard.index')->with('success', 'Account created successfully! You are now logged in.');
     }
 
-
+    public function showRegistrationForm()
+    {
+        return view('auth.register');
+    }
 
     public function login(LoginRequest $request)
     {
@@ -51,8 +51,8 @@ class AuthController extends Controller
         $credentials = $request->only('username', 'password');
 
         if (Auth::attempt($credentials)) {
-            // Cek apakah pengguna merupakan admin
-            if (Auth::user()->is_admin) {
+            $user = Auth::user();
+            if ($user->isAdmin()) {
                 return response()->json([
                     'redirect' => route('dashboard.index'),
                 ], 200);
@@ -63,22 +63,6 @@ class AuthController extends Controller
             }
         }
 
-        // Validasi gagal, cek apakah salah username atau password
-        $user = User::where('username', $request->username)->first();
-
-        if (!$user) {
-            return response()->json([
-                'message' => 'Username salah',
-            ], 422);
-        } else {
-            if (!password_verify($request->password, $user->password)) {
-                return response()->json([
-                    'message' => 'Password salah',
-                ], 422);
-            }
-        }
-
-        // Jika tidak ada pengguna dengan username yang cocok atau password yang salah
         return response()->json([
             'message' => 'Username atau password salah',
         ], 422);
@@ -90,48 +74,66 @@ class AuthController extends Controller
         return redirect()->route('auth.login');
     }
 
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('settings.index', compact('user'));
+    }
 
+    public function editProfile()
+    {
+        $user = Auth::user();
+        return view('settings.edit', compact('user'));
+    }
 
+    public function updateProfile(UsersRequest $request)
+    {
+        $user = Auth::user();
 
-    // public function logout()
-    // {
-    //     Auth::logout();
-    //     return redirect()->route('login');
-    // }
+        // Handle file upload
+        if ($request->hasFile('img_profile')) {
+            // Delete old image if it exists
+            if ($user->img_profile) {
+                Storage::delete($user->img_profile);
+            }
+            // Store the new image
+            $path = $request->file('img_profile')->store('photos', 'public');
+            $user->img_profile = $path;
+        }
 
+        // Update user data
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->tgl_lahir = $request->tgl_lahir;
+        $user->save();
 
+        return redirect()->route('settings.index')->with('success', 'Profile updated successfully.');
+    }
 
+    public function editPass()
+    {
+        $user = Auth::user();
+        return view('settings.editPass', compact('user'));
+    }
 
+    public function updatePass(Request $request)
+    {
+        $user = Auth::user();
 
-    // public function logoutAdmin()
-    // {
-    //     // Logout admin
-    //     Auth::logout();
-    //     return redirect()->route('login.admin');
-    // }
+        $request->validate([
+            'password_lama' => 'required',
+            'password_baru' => 'required|min:6|confirmed',
+        ]);
 
+        if (!Hash::check($request->password_lama, $user->password)) {
+            return back()->withErrors(['password_lama' => 'Password lama tidak cocok']);
+        }
 
-    // public function registerAdmin(RegisterRequest $request)
-    // {
-    //     // Register admin
-    //     $request->validated();
+        // Update password
+        $user->password = Hash::make($request->password_baru);
+        $user->save();
 
-    //     $userData = [
-    //         'first_name' => $request->first_name,
-    //         'last_name' => $request->last_name,
-    //         'username' => $request->username,
-    //         'email' => $request->email,
-    //         'password' => Hash::make($request->password),
-    //         'is_admin' => true,
-    //     ];
-
-    //     $user = User::create($userData);
-
-    //     $token = $user->createToken('usm_hub')->plainTextToken;
-
-    //     return response([
-    //         'user' => $user,
-    //         'token' => $token,
-    //     ], 201);
-    // }
+        return redirect()->route('settings.index')->with('success', 'Password updated successfully.');
+    }
 }

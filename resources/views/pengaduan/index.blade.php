@@ -144,7 +144,7 @@
                 infoEmpty: 'Tidak ada data',
                 infoFiltered: '(filtered from _MAX_ total records)',
                 lengthMenu: 'Tampilkan _MENU_ per page',
-                zeroRecords: 'Data tidak ada - sorry'
+                zeroRecords: 'Maaf tida ada data yang tersedia'
             },
             dom: '<"row"<"col-md-6 d-flex align-items-center"l<"dataTables_length">><"col-md-6 d-flex justify-content-end align-items-center"f>>t<"row"<"col-md-12 d-flex justify-content-between align-items-center"ip>>',
         });

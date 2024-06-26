@@ -31,7 +31,7 @@
                                     Data Aduan
                                 </div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    {{ \App\Models\Aduan::count() }} aduan
+                                    {{ $totalAduan }} aduan
                                 </div>
                                 <div class="text-xs font-weight-medium text-secondary text-uppercase mb-1">
                                     @if($todayAduanCount > 0)
@@ -58,7 +58,7 @@
                                     Data Aspirasi
                                 </div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    {{ \App\Models\Aspirasi::count() }} aspirasi
+                                    {{ $totalAspirasi }} aspirasi
                                 </div>
                                 <div class="text-xs font-weight-medium text-secondary text-uppercase mb-1">
                                     @if($todayAspirasiCount > 0)
@@ -76,7 +76,6 @@
                 </div>
             </div>
 
-
             <div class="col-xl-4 col-md-6 mb-4">
                 <div class="card border-left-success shadow h-100 py-2">
                     <div class="card-body">
@@ -85,9 +84,9 @@
                                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                     Data Mahasiswa
                                 </div>
-                                @php
-                                    $totalMahasiswa = \App\Models\User::where('is_admin', false)->count();
-                                @endphp
+                                {{-- @php
+                                    $totalMahasiswa = \App\Models\User::where('role', '!=', 'Admin' && 'Superadmin')->count();  
+                                @endphp --}}
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
                                     {{ $totalMahasiswa }} Mahasiswa
                                 </div>
@@ -116,8 +115,13 @@
                 <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Klasifikasi jenis laporan</h6>
+                        @if(Auth::user()->role === 'Superadmin' || (Auth::user()->role === 'Admin' && Auth::user()->progdi === 'Dekan FTIK'))
+                            <h6 class="m-0 font-weight-bold text-primary">Klasifikasi Jenis Laporan Program Studi</h6>
+                        @else
+                            <h6 class="m-0 font-weight-bold text-primary">Klasifikasi Jenis Laporan {{ Auth::user()->progdi }}</h6>
+                        @endif
                     </div>
+
                     <!-- Card Body -->
                      <div class="card-body">
                         <div class="chart-area">
@@ -133,7 +137,7 @@
                     <!-- Card Header - Dropdown klasifikasi jenis aduan/aspirasi -->
                     <div
                         class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 font-weight-bold text-primary">Program Studi penerima laporan</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Program Studi Penerima Laporan</h6>
                     </div>
                     <!-- Card Body data aduan, aspirasi -->
                     <div class="card-body">
@@ -154,6 +158,9 @@
                                 <i class="fas fa-circle text-secondary"></i> Aduan - Pariwisata
                             </span>
                             <span class="mr-2">
+                                <i class="fas fa-circle text" style="color: #060270"></i> Aduan - Dekan FTIK
+                            </span>
+                            <span class="mr-2">
                                 <i class="fas fa-circle text-info"></i> Aspirasi - Teknik Informatika
                             </span>
                             <span class="mr-2">
@@ -164,6 +171,9 @@
                             </span>
                             <span class="mr-2">
                                 <i class="fas fa-circle text" style="color: #332D2D"></i> Aspirasi - Pariwisata
+                            </span>
+                            <span class="mr-2">
+                                <i class="fas fa-circle text" style="color: #CC6CE7"></i> Aspirasi - Dekan FTIK
                             </span>
                         </div>
                     </div>
@@ -200,15 +210,15 @@
                     {
                         label: 'Aduan',
                         data: aduanByProgramStudis,
-                        backgroundColor: ['#3B71CA', '#14A44D', '#dc3545', '#6c757d'],
-                        hoverBackgroundColor: ['#0056b3', '#1e7e34', '#c82333', '#5a6268'],
+                        backgroundColor: ['#3B71CA', '#14A44D', '#dc3545', '#6c757d','#060270', '#FF0571'],
+                        hoverBackgroundColor: ['#0056b3', '#1e7e34', '#c82333', '#5a6268','#8381B0', '#FF0571'],
                         hoverBorderColor: 'rgba(234, 236, 244, 1)',
                     },
                     {
                         label: 'Aspirasi',
                         data: aspirasiByProgramStudis,
-                        backgroundColor: ['#17a2b8', '#ffc107', '#fd7e14', '#343a40'],
-                        hoverBackgroundColor: ['#138496', '#e0a800', '#e36209', '#292d31'],
+                        backgroundColor: ['#17a2b8', '#ffc107', '#fd7e14', '#343a40', '#CC6CE7', '#060270'],
+                        hoverBackgroundColor: ['#138496', '#e0a800', '#e36209', '#292d31', '#6f42c1', '#060270'],
                         hoverBorderColor: 'rgba(234, 236, 244, 1)',
                     }
                 ],
@@ -299,6 +309,7 @@
                         borderColor: '#fd7e14',
                         fill: false
                     }
+                    
                 ]
             },
             options: {

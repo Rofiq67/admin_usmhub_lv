@@ -2,10 +2,10 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div class="sidebar-brand-icon">
-            <img src="{{ asset('storage/uploads/logo_pemkab_demak.png') }}" 
+        <img src="{{ asset('images/logo_usmhub_nobg.png') }}" 
             class="me-2" style="height: 30px">
         </div>
-        <div class="sidebar-brand-text mx-2">USM HUB</div>
+        {{-- <div class="sidebar-brand-text mx-2">USM HUB</div> --}}
     </a>
 
     <!-- Divider -->
@@ -69,7 +69,7 @@
                 <h6 class="collapse-header">Pengeolahan Akun:</h6>
                 
                 <a class="collapse-item" href="{{ route('users.index') }}">Data Mahasiswa</a>
-                <a class="collapse-item" href="#">Edit Profil</a>
+                <a class="collapse-item" href="{{ route('settings.index') }}">Edit Profil</a>
             </div>
         </div>
     </li>

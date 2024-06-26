@@ -22,7 +22,7 @@
     <div class="container-fluid">
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-bold text-primary"> USER {{ $users->username }} </h6>
+                <h6 class="m-0 font-weight-bold text-primary"> USER {{ $user->username }} </h6>
                 <a href="{{ route('users.index') }}" class="btn btn-primary">Kembali</a>
             </div>
             <div class="card-body">
@@ -34,35 +34,35 @@
                                 <table class="table table-bordered dataTable" id="dataTable"  width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                     <tr>
                                         <th>Nama lengkap</th>
-                                        <td>{{ $users->first_name }} {{ $users->last_name }}</td>
+                                        <td>{{ $user->first_name }} {{ $user->last_name }}</td>
                                     </tr>
                                     <tr>
                                         <th>NIM</th>
-                                        <td>{{ $users->username }}</td>
+                                        <td>{{ $user->username }}</td>
                                     </tr>
                                     <tr>
                                         <th>Program Studi</th>
-                                        <td>{{ $users->progdi }}</td>
+                                        <td>{{ $user->progdi }}</td>
                                     </tr>
                                     <tr>
                                         <th>Tanggal Lahir</th>
                                         <td>
-                                            @if($users->tgl_lahir)
-                                                {{ \Carbon\Carbon::parse($users->tgl_lahir)->format('d/m/Y') }}
+                                            @if($user->tgl_lahir)
+                                                {{ \Carbon\Carbon::parse($user->tgl_lahir)->format('d/m/Y') }}
                                             @endif
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>Jenis Kelamin</th>
                                         <td> 
-                                            {{ $users->gender }}
+                                            {{ $user->gender }}
                                         </td>
                                     </tr>
                                     <tr>
                                         <th>Photo Profile</th>
                                         <td>
-                                            @if($users->img_profile)
-                                                <img src="{{ asset('storage/photos/' . $users->img_profile) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;">
+                                            @if($user->img_profile)
+                                                <img src="{{ asset('storage/photos/' . $user->img_profile) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;">
                                             @else
                                                 Tidak ada photo
                                             @endif

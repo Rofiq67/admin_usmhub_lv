@@ -87,11 +87,7 @@
                                                     Deskripsi
                                                 </span>
                                             </th>
-                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Rating: activate to sort column ascending" style="width: 194.2px;">
-                                                <span class="dt-column-title" role="button">
-                                                    Status
-                                                </span>
-                                            </th>
+                                            
                                             <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Start date: activate to sort column ascending" style="width: 134.2px;">
                                                 <span class="dt-column-title" role="button">
                                                     Tanggal
@@ -106,6 +102,11 @@
                                                     Photo Banner
                                                 </span>
                                             </th>
+                                            <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Kategori: activate to sort column ascending" style="width: 250.2px;">
+                                                <span class="dt-column-title" role="button">
+                                                    Penerbit
+                                                </span>
+                                            </th>
                                             <th aria-controls="dataTable" rowspan="1" colspan="1" style="width: 134.2px;">
                                                 Aksi
                                             </th>
@@ -117,15 +118,15 @@
                                             <th rowspan="1" colspan="1">Kategori</th>
                                             <th rowspan="1" colspan="1">Judul</th>
                                             <th rowspan="1" colspan="1">Deskripsi</th>
-                                            <th rowspan="1" colspan="1">Status</th>
                                             <th rowspan="1" colspan="1">Tanggal</th>
                                             <th rowspan="1" colspan="1">File</th>
                                             <th rowspan="1" colspan="1">Photo Banner</th>
+                                            <th rowspan="1" colspan="1">Penerbit</th>
                                             <th rowspan="1" colspan="1">Aksi</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        @foreach($feed as $data)
+                                        @foreach($feeds as $data)
                                         <tr class="odd">
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $data->kategori }}</td>
@@ -137,7 +138,7 @@
                                                 </span>
                                             </td>
 
-                                            <td>{{ $data->status }}</td>
+                                            
                                             <td>{{ $data->created_at->format('d/m/Y') }}</td>
                                             <td>
                                                 @if($data->doc_feed)
@@ -152,7 +153,7 @@
                                                 @else
                                                     Tidak ada photo
                                                 @endif
-                                            </td>
+                                            </td><td>{{ $data->user?->progdi ?? 'No Program Studi' }}</td>
 
                                             <td class="">
                                                 <a href="{{ route('feed.view', $data->id) }}" class="btn btn-primary">View</a>
@@ -186,7 +187,7 @@
                 infoEmpty: 'Tidak ada data',
                 infoFiltered: '(filtered from _MAX_ total records)',
                 lengthMenu: 'Tampilkan _MENU_ per page',
-                zeroRecords: 'Data tidak ada - sorry'
+                zeroRecords: 'Maaf tidak ada data'
             },
             dom: '<"row"<"col-md-6 d-flex align-items-center"l<"dataTables_length">><"col-md-6 d-flex justify-content-end align-items-center"f>>t<"row"<"col-md-12 d-flex justify-content-between align-items-center"ip>>',
         });

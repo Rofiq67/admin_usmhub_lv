@@ -14,7 +14,13 @@
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-4 d-none d-lg-inline text-gray-600 medium">Admin</span>
+                <span class="mr-4 d-none d-lg-inline text-gray-600 medium">
+                    @if (Auth::check())
+                        {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
+                    @else
+                        Admin
+                    @endif
+                </span>
                     <i class='bx bxs-user-circle bx-md'></i>
             </a>
             <!-- Dropdown - User Information -->

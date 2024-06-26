@@ -50,31 +50,26 @@
                         <trix-editor input="deskripsi"></trix-editor>
                     </div>
                     <div class="mb-3">
-    <label for="doc_feed" class="form-label">File pendukung (pdf)</label>
-    <input type="file" class="form-control" name="doc_feed" id="doc_feed">
-    @if ($feed->doc_feed)
-        <div class="mt-2">
-            <a href="{{ asset('storage/' . $feed->doc_feed) }}" target="_blank">Lihat Dokumen</a>
-        </div>
-    @else
-        <div class="mt-2">Tidak ada File</div>
-    @endif
-</div>
-<div class="mb-3">
-    <label for="img_banner" class="form-label">Photo Banner</label>
-    <input type="file" class="form-control" name="img_banner" id="img_banner">
-    @if ($feed->img_banner)
-        <div class="mt-2">
-            <img src="{{ asset('storage/' . str_replace('public/', '', $feed->img_banner)) }}" alt="Current Photo" style="max-width: 100%; height: auto;">
-        </div>
-    @else
-        <div class="mt-2">Tidak ada Photo</div>
-    @endif
-</div>
-
+                        <label for="doc_feed" class="form-label">File pendukung (pdf)</label>
+                        <input type="file" class="form-control" name="doc_feed" id="doc_feed">
+                        @if ($feed->doc_feed)
+                            <div class="mt-2">
+                                <a href="{{ asset('storage/' . $feed->doc_feed) }}" target="_blank">Lihat Dokumen</a>
+                            </div>
+                        @else
+                            <div class="mt-2">Tidak ada File</div>
+                        @endif
+                    </div>
                     <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <input type="text" class="form-control" value="{{ $feed->status ? 'Sudah diupload' : 'Belum diupload' }}" readonly>
+                        <label for="img_banner" class="form-label">Photo Banner</label>
+                        <input type="file" class="form-control" name="img_banner" id="img_banner">
+                        @if ($feed->img_banner)
+                            <div class="mt-2">
+                                <img src="{{ asset('storage/' . str_replace('public/', '', $feed->img_banner)) }}" alt="Current Photo" style="max-width: 100%; height: auto;">
+                            </div>
+                        @else
+                            <div class="mt-2">Tidak ada Photo</div>
+                        @endif
                     </div>
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn btn-primary">Simpan</button>

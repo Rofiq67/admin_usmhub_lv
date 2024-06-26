@@ -79,7 +79,7 @@
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        @foreach($users as $user)
+                                        @foreach($datamhs as $user)
                                         <tr class="odd">
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $user->first_name }} {{ $user->last_name }}</td>

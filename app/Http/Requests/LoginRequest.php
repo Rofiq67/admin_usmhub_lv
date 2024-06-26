@@ -14,8 +14,8 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|string|min:6', // Sesuaikan dengan aturan validasi yang digunakan di loginApi()
-            'password' => 'required|min:6', // Sesuaikan dengan aturan validasi yang digunakan di loginApi()
+            'username' => 'required|string|min:6',
+            'password' => 'required|min:6',
         ];
     }
 }

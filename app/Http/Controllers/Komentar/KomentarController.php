@@ -55,12 +55,10 @@ class KomentarController extends Controller
         $komentar = Komentar::findOrFail($id);
 
         // Cek apakah pengguna saat ini adalah admin
-        if (Auth::user()->is_admin) {
-            // Jika admin, cek apakah komentar yang akan diupdate adalah milik pengguna lain
-            if ($komentar->user_id != Auth::id()) {
-                return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk memperbarui komentar ini');
-            }
+        if (!Auth::user()->isAdmin() && !Auth::user()->isSuperAdmin()) {
+            return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk memperbarui komentar ini');
         }
+
 
         $komentar->text = $request->text;
 
@@ -79,11 +77,8 @@ class KomentarController extends Controller
         $komentar = Komentar::findOrFail($id);
 
         // Cek apakah pengguna saat ini adalah admin
-        if (Auth::user()->is_admin) {
-            // Jika admin, cek apakah komentar yang akan dihapus adalah milik pengguna lain
-            if ($komentar->user_id != Auth::id()) {
-                return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus komentar ini');
-            }
+        if (!Auth::user()->isAdmin() && !Auth::user()->isSuperAdmin()) {
+            return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk menghapus komentar ini');
         }
 
         $komentar->delete();
