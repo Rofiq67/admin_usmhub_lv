@@ -52,7 +52,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            if ($user->isAdmin()) {
+            if ($user->isAdmin() || $user->isSuperAdmin()) {
                 return response()->json([
                     'redirect' => route('dashboard.index'),
                 ], 200);
@@ -67,6 +67,7 @@ class AuthController extends Controller
             'message' => 'Username atau password salah',
         ], 422);
     }
+
 
     public function logout()
     {
@@ -135,5 +136,30 @@ class AuthController extends Controller
         $user->save();
 
         return redirect()->route('settings.index')->with('success', 'Password updated successfully.');
+    }
+
+    public function showForgotPassForm()
+    {
+        return view('auth.forgot');
+    }
+
+    public function forgotPass(Request $request)
+    {
+        $request->validate([
+            'username' => 'required',
+            'password_baru' => 'required|min:6|confirmed',
+        ]);
+
+        $user = User::where('username', $request->username)->first();
+
+        if (!$user) {
+            return back()->withErrors(['username' => 'Username tidak ditemukan']);
+        }
+
+        // Update password
+        $user->password = Hash::make($request->password_baru);
+        $user->save();
+
+        return redirect()->route('auth.login')->with('success', "Kata sandi untuk username $user->username berhasil diganti");
     }
 }

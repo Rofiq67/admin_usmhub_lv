@@ -25,18 +25,34 @@ class DashboardController extends Controller
         $isDekanFTIK = $admin->role === 'Admin' && $admin->progdi === 'Dekan FTIK';
         $adminProgramStudi = $admin->progdi;
 
-        if ($isSuperadmin || $isDekanFTIK) {
+        // Count metrics
+        if ($isSuperadmin) {
             $totalAduan = Aduan::count();
             $totalAspirasi = Aspirasi::count();
-            $totalMahasiswa = User::where('role', 'User')->count();
+            $totalMahasiswa = User::where('id', '!=', $admin->id)->count();
             $todayAduanCount = Aduan::whereDate('created_at', Carbon::today())->count();
             $todayAspirasiCount = Aspirasi::whereDate('created_at', Carbon::today())->count();
-            $todayUserCount = User::whereDate('created_at', Carbon::today())->count();
+            $todayUserCount = User::whereDate('created_at', Carbon::today())
+                ->where('id', '!=', $admin->id)
+                ->count();
+        } elseif ($isDekanFTIK) {
+            $totalAduan = Aduan::count();
+            $totalAspirasi = Aspirasi::count();
+            $totalMahasiswa = User::where('role', 'User')
+                ->where('id', '!=', $admin->id)
+                ->count();
+            $todayAduanCount = Aduan::whereDate('created_at', Carbon::today())->count();
+            $todayAspirasiCount = Aspirasi::whereDate('created_at', Carbon::today())->count();
+            $todayUserCount = User::where('role', 'User')
+                ->whereDate('created_at', Carbon::today())
+                ->where('id', '!=', $admin->id)
+                ->count();
         } else {
             $totalAduan = Aduan::where('program_studi', $adminProgramStudi)->count();
             $totalAspirasi = Aspirasi::where('program_studi', $adminProgramStudi)->count();
             $totalMahasiswa = User::where('role', 'User')
                 ->where('progdi', $adminProgramStudi)
+                ->where('id', '!=', $admin->id)
                 ->count();
             $todayAduanCount = Aduan::whereDate('created_at', Carbon::today())
                 ->where('program_studi', $adminProgramStudi)
@@ -46,6 +62,7 @@ class DashboardController extends Controller
                 ->count();
             $todayUserCount = User::whereDate('created_at', Carbon::today())
                 ->where('progdi', $adminProgramStudi)
+                ->where('id', '!=', $admin->id)
                 ->count();
         }
 

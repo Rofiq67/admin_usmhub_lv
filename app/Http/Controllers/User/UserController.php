@@ -12,12 +12,19 @@ class UserController extends Controller
     {
         $admin = Auth::user();
 
-        // Jika superadmin atau admin dengan progdi "Dekan FTIK", tampilkan semua user
-        if ($admin->isSuperAdmin() || ($admin->isAdmin() && $admin->progdi == 'Dekan FTIK')) {
-            $datamhs = User::whereNotIn('role', ['superadmin', 'admin'])->get();
-        } else {
-            // Jika admin dengan progdi lain, tampilkan user sesuai dengan progdi admin
-            $datamhs = User::where('progdi', $admin->progdi)->whereNotIn('role', ['superadmin', 'admin'])->get();
+        if ($admin->isSuperAdmin()) {
+            $datamhs = User::where('id', '!=', $admin->id)->get();
+        }
+        // Jika admin dengan progdi "Dekan FTIK", tampilkan semua user dengan role 'user'
+        elseif ($admin->isAdmin() && $admin->progdi == 'Dekan FTIK') {
+            $datamhs = User::where('role', 'user')->where('id', '!=', $admin->id)->get();
+        }
+        // Jika admin dengan progdi lain, tampilkan user dengan role 'user' sesuai progdi admin
+        else {
+            $datamhs = User::where('progdi', $admin->progdi)
+                ->where('role', 'user')
+                ->where('id', '!=', $admin->id)
+                ->get();
         }
 
         return view('users.index', compact('datamhs', 'admin'));

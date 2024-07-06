@@ -16,50 +16,46 @@
 </head>
 <body class="bg-gradient-primary">
     <div class="container">
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
-            <div class="col-xl-10 col-lg-12 col-md-9">
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
-                                        <!-- Toast for displaying errors -->
-                                        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000" style="position: absolute; top: 10px; right: 10px;">
-                                            <div class="toast-body bg-danger text-white">
-                                                <!-- Error message will appear here -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <form id="loginForm" method="POST" action="{{ route('login.submit') }}">
-                                        @csrf
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" name="username" placeholder="Enter username...">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="password" name="password" class="form-control form-control-user" placeholder="Password">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
-                                    </form>
-                                    <hr>
-                                    <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Lupa password?</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <a class="small" href="{{ route('register') }}">Tidak punya akun ? <b>Daftar</b></a>
-                                    </div>
-                                </div>
+        <!-- Toast for displaying errors -->
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000" style="position: absolute; top: 10px; right: 10px;">
+            <div class="toast-body bg-success text-white">
+            {{ session('success') }}
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-center align-items-center mt-5">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card" style="border-radius: 1rem">
+                    <div class="card-body p-5 text-center">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Selamat datang!</h1>
+                        </div>
+                        <form id="loginForm" method="POST" action="{{ route('login.submit') }}">
+                            @csrf
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-user" name="username" placeholder="Username">
                             </div>
+                            <div class="form-group">
+                                <input type="password" name="password" class="form-control form-control-user" placeholder="Password">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
+                        </form>
+                        <hr>
+                        <div class="text-center">
+                            <a class="small" href="{{ route('auth.forgot_pass') }}">Lupa password?</a>
+                        </div>
+                        <div class="text-center">
+                            <a class="small" href="{{ route('register') }}">Tidak punya akun ? <b>Daftar</b></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+
+
     <!-- Bootstrap core JavaScript-->
     <script src="{{asset('admin/vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
@@ -93,6 +89,11 @@
                 }
             });
         });
+
+        @if(session('success'))
+            $('.toast-body').removeClass('bg-danger').addClass('bg-success').text('{{ session('success') }}');
+            $('.toast').toast('show');
+        @endif
     });
 </script>
 

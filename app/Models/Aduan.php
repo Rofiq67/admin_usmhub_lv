@@ -39,8 +39,14 @@ class Aduan extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function comments(): HasMany
     {
         return $this->hasMany(Komentar::class);
+    }
+
+    public function historyForwards()
+    {
+        return $this->hasMany(HistoryForward::class, 'aduan_id');
     }
 }

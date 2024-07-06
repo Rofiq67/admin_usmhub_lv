@@ -21,9 +21,13 @@ Route::get('/login', function () {
 
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
+Route::get('/forgot-password', [AuthController::class, 'showForgotPassForm'])->name('auth.forgot_pass_form');
+Route::post('/forgot-password', [AuthController::class, 'forgotPass'])->name('auth.forgot_pass');
 
 Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout.submit');
+
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::get('/pengaduan', [AduanController::class, 'index'])->name('pengaduan.index');

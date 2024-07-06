@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Aduan;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Aduan;
+use App\Models\HistoryForward;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -14,14 +15,18 @@ class AduanController extends Controller
     public function index()
     {
         $admin = Auth::user();
+        $isSuperadmin = $admin->role === 'Superadmin';
+        $isDekanFTIK = $admin->role === 'Admin' && $admin->progdi === 'Dekan FTIK';
+        $adminProgramStudi = $admin->progdi;
 
-        if ($admin->role === 'Superadmin') {
-            // Superadmin can see all reports from all programs
+        if ($isSuperadmin && $isDekanFTIK) {
+            $pengaduan = Aduan::all();
+        } else if ($isDekanFTIK) {
             $pengaduan = Aduan::all();
         } else {
-            // Admin can only see reports from their own program
             $pengaduan = Aduan::where('program_studi', $admin->progdi)->get();
         }
+
 
         return view('pengaduan.index', compact('pengaduan', 'admin'));
     }
@@ -81,6 +86,14 @@ class AduanController extends Controller
                 return redirect()->route('pengaduan.view', $id)->with('error', 'Anda hanya bisa meneruskan aduan ke Dekan FTIK.');
             }
         }
+
+        // Simpan riwayat penerusan aduan
+        HistoryForward::create([
+            'aduan_id' => $pengaduan->id,
+            'from_program_studi' => $admin->progdi,
+            'to_program_studi' => $request->input('program_studi'),
+            'user_id' => $admin->id,
+        ]);
 
         $pengaduan->program_studi = $request->input('program_studi');
         $pengaduan->save();

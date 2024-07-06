@@ -14,11 +14,16 @@ class AspirasiController extends Controller
     {
         $admin = Auth::user();
 
-        if ($admin->role === 'Superadmin') {
-            // Superadmin can see all reports from all programs
+        $admin = Auth::user();
+        $isSuperadmin = $admin->role === 'Superadmin';
+        $isDekanFTIK = $admin->role === 'Admin' && $admin->progdi === 'Dekan FTIK';
+        $adminProgramStudi = $admin->progdi;
+
+        if ($isSuperadmin && $isDekanFTIK) {
+            $aspirasi = Aspirasi::all();
+        } else if ($isDekanFTIK) {
             $aspirasi = Aspirasi::all();
         } else {
-            // Admin can only see reports from their own program
             $aspirasi = Aspirasi::where('program_studi', $admin->progdi)->get();
         }
 
@@ -33,20 +38,20 @@ class AspirasiController extends Controller
 
         // Check if the admin is allowed to view this report
         if ($admin->role !== 'Superadmin' && $aspirasi->program_studi !== $admin->progdi) {
-            return redirect()->route('aspirasi.index')->with('error', 'Anda tidak memiliki izin untuk melihat aduan ini.');
+            return redirect()->route('aspirasi.index')->with('error', 'Anda tidak memiliki izin untuk melihat Aspirasi ini.');
         }
 
-        $user = $aspirasi->user; // Mengambil pengguna yang membuat aduan
-        $users = User::where('id', '!=', $user->id)->get(); // Mengambil semua pengguna kecuali pengguna yang membuat aduan
+        $user = $aspirasi->user; // Mengambil pengguna yang membuat Aspirasi
+        $users = User::where('id', '!=', $user->id)->get(); // Mengambil semua pengguna kecuali pengguna yang membuat Aspirasi
 
         return view('aspirasi.view', compact('aspirasi', 'users'));
     }
 
     public function updateStatus($id, $status)
     {
-        $aduan = Aspirasi::findOrFail($id);
-        $aduan->status = $status;
-        $aduan->save();
+        $Aspirasi = Aspirasi::findOrFail($id);
+        $Aspirasi->status = $status;
+        $Aspirasi->save();
 
         return redirect()->route('aspirasi.view', $id)->with('success', 'Status Aspirasi berhasil diubah.');
     }

@@ -101,6 +101,15 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    @if($pengaduan->historyForwards()->exists())
+                                        <tr>
+                                            <th>Laporan Terusan</th>
+                                            <td>
+                                                Dari {{ $pengaduan->historyForwards->last()->from_program_studi }} ke {{ $pengaduan->historyForwards->last()->to_program_studi }}
+                                            </td>
+                                        </tr>
+                                    @endif
+
 
                                     {{-- Modal for forward aduan--}}
                                     <div class="modal fade" id="confirmForwardModal" tabindex="-1" aria-labelledby="confirmForwardModalLabel" aria-hidden="true">
@@ -212,16 +221,17 @@
                                                             <h6 class="@if(!($komen->user->isAdmin() || $komen->user->isSuperAdmin())) float-left mr-3 @endif">{{ $komen->user->first_name }} {{ $komen->user->last_name }}</h6>
                                                             @if($komen->user->isAdmin() || $komen->user->isSuperAdmin())
                                                             <div class="dropdown">
+                                                                @if(Auth::check() && $komen->user_id === Auth::id())
                                                                 <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#editModal{{ $komen->id }}">Edit</a>
                                                                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#deleteModal{{ $komen->id }}">Hapus</a>
                                                                 </div>
+                                                                @endif
                                                             </div>
-                                                            @endif
-                                                        </div>
+                                                        @endif
                                                     </div>
-
+                                                </div>
                                                     <div class="d-flex flex-column @if(!($komen->user->isAdmin() || $komen->user->isSuperAdmin())) align-items-end  mr-3 @endif">
                                                         @if($komen->file)
                                                         @if(in_array(pathinfo($komen->file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
@@ -248,7 +258,6 @@
                                                         </div>
                                                         @endif
                                                         @endif
-
                                                         <div class="p-2 badge text-wrap fs-6 rounded @if($komen->user->isAdmin() || $komen->user->isSuperAdmin()) bg-primary text-white @else bg-secondary text-light  @endif" style="text-align: left; width: fit-content;">
                                                             {{ $komen->text }}
                                                         </div>

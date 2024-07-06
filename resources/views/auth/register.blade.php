@@ -13,10 +13,10 @@
 </head>
 <body class="bg-gradient-primary">
     <div class="container">
-        <div class="card o-hidden border-0 shadow-lg my-5">
-            <div class="card-body ">
-                <div class="col-lg-7">
-                    <div class="p-4 ">
+        <div class="row d-flex justify-content-center align-items-center mt-5">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card" style="border-radius: 2rem">
+                    <div class="card-body p-5 text-center">
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">Create Your Account!</h1>
                         </div>
@@ -24,14 +24,14 @@
                             @csrf
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user" name="first_name" placeholder="First Name" value="{{ old('first_name') }}" required>
+                                    <input type="text" class="form-control form-control-user" name="first_name" placeholder="Nama depan" value="{{ old('first_name') }}" required>
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control form-control-user" name="last_name" placeholder="Last Name" value="{{ old('last_name') }}" required>
+                                    <input type="text" class="form-control form-control-user" name="last_name" placeholder="Nama belakang" value="{{ old('last_name') }}" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control form-control-user" name="email" placeholder="Email Address" value="{{ old('email') }}" required>
+                                <input type="email" class="form-control form-control-user" name="email" placeholder="Alamat email" value="{{ old('email') }}" required>
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control form-control-user" name="username" placeholder="Username" value="{{ old('username') }}" required>
@@ -41,11 +41,11 @@
                                     <input type="password" class="form-control form-control-user" name="password" placeholder="Password" required>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="password" class="form-control form-control-user" name="password_confirmation" placeholder="Repeat Password" required>
+                                    <input type="password" class="form-control form-control-user" name="password_confirmation" placeholder="Konfirmasi Password" required>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="date" class="form-control form-control-user" name="tgl_lahir" placeholder="Tanggal Lahir" value="{{ old('tgl_lahir') }}">
+                                <input type="date" class="form-control form-control-user" name="tgl_lahir" placeholder="Tanggal lahir" value="{{ old('tgl_lahir') }}">
                             </div>
                             <div class="form-group">
                                 <select class="form-control  form-select rounded-pill" name="gender" required aria-label="Small select example" style="width: 100%; height: 50px;">
@@ -71,7 +71,7 @@
                                     <option value="Admin">Admin</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-user btn-block">Register Account</button>
+                            <button type="submit" class="btn btn-primary btn-user btn-block">Daftar</button>
                         </form>
                         <hr>
                         {{-- <div class="text-center">
@@ -85,6 +85,8 @@
             </div>
         </div>
     </div>
+
+
     <script src="{{ asset('admin/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('admin/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
