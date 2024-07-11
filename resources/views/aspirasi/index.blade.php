@@ -40,7 +40,7 @@
                                             </th>
                                             <th class="sorting sorting_asc" tabindex="0" aria-sort="ascending" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="NIM: activate to sort column descending" style="width: 194.2px;">
                                                 <span class="dt-column-title" role="button">
-                                                    NIM
+                                                    Pelapor
                                                 </span>
                                             </th>
                                             <th class="sorting sorting_asc" tabindex="0" aria-sort="ascending" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Kategori: activate to sort column descending" style="width: 194.2px;">
@@ -80,7 +80,7 @@
                                     <tfoot>
                                         <tr>
                                             <th rowspan="1" colspan="1">No</th>
-                                            <th rowspan="1" colspan="1">NIM</th>
+                                            <th rowspan="1" colspan="1">Pelapor</th>
                                             <th rowspan="1" colspan="1">Kategori</th>
                                             <th rowspan="1" colspan="1">Program Studi</th>
                                             <th rowspan="1" colspan="1">Keterangan</th>
@@ -94,7 +94,7 @@
                                         @foreach($aspirasi as $data)
                                         <tr class="odd">
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $data->user->username }}</td>
+                                             <td>{{ $data->is_anonymous ? 'Anonymous' : $data->user->username }}</td>
                                             <td>{{ $data->jenis_aspirasi }}</td>
                                             <td>{{ $data->program_studi }}</td>
                                             <td class="">

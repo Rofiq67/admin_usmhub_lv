@@ -53,8 +53,8 @@
                                 <!--itemnya-->
                                 <table class="table table-bordered dataTable" id="dataTable"  width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                     <tr>
-                                        <th>NIM</th>
-                                        <td>{{ $pengaduan->user->username }}</td>
+                                        <th>Pelapor</th>
+                                         <td>{{ $pengaduan->is_anonymous ? 'Anonymous' : $pengaduan->user->username }}</td>
                                     </tr>
                                     <tr>
                                         <th>Kategori</th>
@@ -217,8 +217,14 @@
                                             <div class="mb-2 mt-2 d-flex @if($komen->user->isAdmin() || $komen->user->isSuperAdmin()) flex-column @else flex-column-reverse align-items-end @endif">
                                                 <div class="comment-box mt-2 rounded d-inline-block @if(!($komen->user->isAdmin() || $komen->user->isSuperAdmin())) text-right float-right d-flex flex-column align-items-end @else float-left d-flex flex-column @endif">
                                                     <div class="d-flex align-items-center justify-content-between">
-                                                        <div class="d-flex align-items-center">
-                                                            <h6 class="@if(!($komen->user->isAdmin() || $komen->user->isSuperAdmin())) float-left mr-3 @endif">{{ $komen->user->first_name }} {{ $komen->user->last_name }}</h6>
+                                                        <div class="d-flex align-items-center">         
+                                                            <h6 class="@if(!($komen->user->isAdmin() || $komen->user->isSuperAdmin())) float-left mr-3 @endif">
+                                                                @if($pengaduan->is_anonymous && !$komen->user->isAdmin() && !$komen->user->isSuperAdmin())
+                                                                    Anonymous
+                                                                @else
+                                                                    {{ $komen->user->first_name }} {{ $komen->user->last_name }}
+                                                                @endif
+                                                            </h6>
                                                             @if($komen->user->isAdmin() || $komen->user->isSuperAdmin())
                                                             <div class="dropdown">
                                                                 @if(Auth::check() && $komen->user_id === Auth::id())

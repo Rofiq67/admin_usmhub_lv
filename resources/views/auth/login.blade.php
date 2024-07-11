@@ -18,7 +18,7 @@
     <div class="container">
         <!-- Toast for displaying errors -->
         <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000" style="position: absolute; top: 10px; right: 10px;">
-            <div class="toast-body bg-success text-white">
+            <div class="toast-body bg-danger text-white">
             {{ session('success') }}
             </div>
         </div>

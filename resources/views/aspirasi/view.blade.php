@@ -33,8 +33,9 @@
                                 <!--itemnya-->
                                 <table class="table table-bordered dataTable" id="dataTable"  width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
                                      <tr>
-                                        <th>NIM</th>
-                                        <td>{{ $aspirasi->user->username }}</td>
+                                        <th>Pelapor</th>
+                                         <td>{{ $aspirasi->is_anonymous ? 'Anonymous' : $aspirasi->user->username }}</td>
+
                                     </tr>
                                     <tr>
                                         <th>Kategori</th>

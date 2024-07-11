@@ -13,6 +13,8 @@ class KomentarController extends Controller
     public function index($aduan_id)
     {
         $komentars = Komentar::where('aduan_id', $aduan_id)->get();
+
+
         return view('komentar.index', compact('komentars'));
     }
 
