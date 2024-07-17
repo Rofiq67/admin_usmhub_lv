@@ -15,16 +15,18 @@
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center mt-5">
             <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-                <div class="card" style="border-radius: 2rem">
-                    <div class="card-body p-5 text-center">
+                <div class="card" style="border-radius: 2rem; width: 560px">
+                    <div class="card-body p-4 text-center">
                         <div class="text-center">
-                            <h1 class="h4 text-gray-900 mb-4">Create Your Account!</h1>
+                            <h1 class="h4 text-gray-900 mb-4">Buat Akun Baru!</h1>
                         </div>
                         <form class="user" method="POST" action="{{ route('register.submit') }}">
                             @csrf
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user" name="first_name" placeholder="Nama depan" value="{{ old('first_name') }}" required>
+                                    <input type="text" class="form-control form-control-user" name="first_name" placeholder="Nama depan" value="{{ old('first_name') }}"
+                                    
+                                    required>
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-user" name="last_name" placeholder="Nama belakang" value="{{ old('last_name') }}" required>

@@ -135,7 +135,7 @@
             language: {
                 info: 'Memperlihatkan halaman  _PAGE_ of _PAGES_',
                 infoEmpty: 'Tidak ada data',
-                infoFiltered: '(filtered from _MAX_ total records)',
+                infoFiltered: '(filtered dari _MAX_ total )',
                 lengthMenu: 'Tampilkan _MENU_ per page',
                 zeroRecords: 'Maaf tida ada data yang tersedia'
             },

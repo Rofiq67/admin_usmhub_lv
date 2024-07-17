@@ -270,16 +270,17 @@
                                                     </div>
 
                                                     <span class="comment-time m-2 @if($komen->user->isAdmin() || $komen->user->isSuperAdmin()) float-left @else float-right mr-3 @endif" style="padding-top: 0">
-                                                        @php
-                                                        $commentTime = \Carbon\Carbon::parse($komen->created_at);
-                                                        $now = \Carbon\Carbon::now();
-                                                        @endphp
-                                                        @if($commentTime->isSameDay($now))
-                                                        {{ $commentTime->format('H:i') }}
-                                                        @else
-                                                        {{ $commentTime->format('d/m/Y H:i') }}
-                                                        @endif
-                                                    </span>
+    @php
+        $commentTime = \Carbon\Carbon::parse($komen->created_at)->setTimezone('Asia/Jakarta');
+        $now = \Carbon\Carbon::now()->setTimezone('Asia/Jakarta');
+    @endphp
+    @if($commentTime->isSameDay($now))
+        {{ $commentTime->format('H:i') }}
+    @else
+        {{ $commentTime->format('d/m/Y H:i') }}
+    @endif
+</span>
+
                                                 </div>
                                             </div>
                                             @endforeach
