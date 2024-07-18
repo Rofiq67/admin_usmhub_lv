@@ -149,12 +149,28 @@
                                             </td>
                                             <td>
                                                 @if($data->img_banner)
-                                                    <img src="{{ asset('storage/' . str_replace('public/', '', $data->img_banner)) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;">
+                                                    <img src="{{ asset('storage/' . str_replace('public/', '', $data->img_banner)) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;" data-toggle="modal" data-target="#modal{{ $data->id }}">
                                                 @else
                                                     Tidak ada photo
                                                 @endif
-                                            </td><td>{{ $data->user?->progdi ?? 'No Program Studi' }}</td>
+                                            </td>
 
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="modal{{ $data->id }}" tabindex="-1" role="dialog" aria-labelledby="modal{{ $data->id }}Label" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body text-center">
+                                                            @if($data->img_banner)
+                                                                <img src="{{ asset('storage/' . str_replace('public/', '', $data->img_banner)) }}" alt="Bukti Photo" style="max-height: 80vh; max-width: 100%;" class="img-fluid">
+                                                            @else
+                                                                Tidak ada photo
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <td>{{ $data->user?->progdi ?? 'No author' }}</td>
                                             <td class="">
                                                 <a href="{{ route('feed.view', $data->id) }}" class="btn btn-primary">View</a>
                                             </td>

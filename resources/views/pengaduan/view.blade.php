@@ -82,12 +82,27 @@
                                         <th>Bukti Photo</th>
                                         <td>
                                             @if($pengaduan->bukti_photo)
-                                                <img src="{{ asset('storage/photos/' . $pengaduan->bukti_photo) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;">
+                                                <img src="{{ asset('storage/' . ltrim($pengaduan->bukti_photo, '/')) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;" data-toggle="modal" data-target="#modal{{ $pengaduan->id }}">
                                             @else
                                                 Tidak ada photo
                                             @endif
                                         </td>
                                     </tr>
+
+                                    <!-- Modal gambar-->
+                                    <div class="modal fade" id="modal{{ $pengaduan->id }}" tabindex="-1" role="dialog" aria-labelledby="modal{{ $pengaduan->id }}Label" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-body text-center">
+                                                    @if($pengaduan->bukti_photo)
+                                                        <img src="{{ asset('storage/' . ltrim($pengaduan->bukti_photo, '/')) }}" alt="Bukti Photo" style="max-height: 80vh; max-width: 100%;" class="img-fluid">
+                                                    @else
+                                                        Tidak ada photo
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <tr>
                                         <th>Status</th>
                                         <td>
@@ -270,17 +285,16 @@
                                                     </div>
 
                                                     <span class="comment-time m-2 @if($komen->user->isAdmin() || $komen->user->isSuperAdmin()) float-left @else float-right mr-3 @endif" style="padding-top: 0">
-    @php
-        $commentTime = \Carbon\Carbon::parse($komen->created_at)->setTimezone('Asia/Jakarta');
-        $now = \Carbon\Carbon::now()->setTimezone('Asia/Jakarta');
-    @endphp
-    @if($commentTime->isSameDay($now))
-        {{ $commentTime->format('H:i') }}
-    @else
-        {{ $commentTime->format('d/m/Y H:i') }}
-    @endif
-</span>
-
+                                                        @php
+                                                            $commentTime = \Carbon\Carbon::parse($komen->created_at)->setTimezone('Asia/Jakarta');
+                                                            $now = \Carbon\Carbon::now()->setTimezone('Asia/Jakarta');
+                                                        @endphp
+                                                        @if($commentTime->isSameDay($now))
+                                                            {{ $commentTime->format('H:i') }}
+                                                        @else
+                                                            {{ $commentTime->format('d/m/Y H:i') }}
+                                                        @endif
+                                                    </span>
                                                 </div>
                                             </div>
                                             @endforeach

@@ -15,7 +15,6 @@
     <title>USM HUB | Pengaduan</title>
 </head>
 <body>
-
 @extends('layouts-admin.app')
 
 @section('contents')
@@ -106,11 +105,25 @@
                                             <td>{{ $aduan->created_at->format('d/m/Y') }}</td>
                                             <td>
                                                 @if($aduan->bukti_photo)
-                                                    <img src="{{ asset('storage/photos/' . $aduan->bukti_photo) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;">
+                                                    <img src="{{ asset('storage/' . $aduan->bukti_photo) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;" data-toggle="modal" data-target="#modal{{ $aduan->id }}">
                                                 @else
-                                                    Tidak ada photo
+                                                    Tidak ada foto
                                                 @endif
                                             </td>
+                                            <!-- Modal gambar -->
+                                            <div class="modal fade" id="modal{{ $aduan->id }}" tabindex="-1" role="dialog" aria-labelledby="modal{{ $aduan->id }}Label" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body text-center">
+                                                            @if($aduan->bukti_photo)
+                                                                <img src="{{ asset('storage/' . ltrim($aduan->bukti_photo, '/')) }}" alt="Bukti Photo" style="max-height: 80vh; max-width: 100%;" class="img-fluid">
+                                                            @else
+                                                                Tidak ada photo
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <td>{{ $aduan->status }}</td>
                                             <td class="">
                                                 <a href="{{ route('pengaduan.view', $aduan->id) }}" class="btn btn-primary">View</a>

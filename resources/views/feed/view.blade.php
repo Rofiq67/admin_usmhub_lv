@@ -92,15 +92,31 @@
                                         <td>{{$feed->created_at->format('d/m/Y') }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Bukti Photo</th>
-                                        <td>
-                                            @if($feed->img_banner)
-                                                <img src="{{ asset('storage/' . str_replace('public/', '', $feed->img_banner)) }}" alt="Photo Banner" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;">
-                                            @else
-                                                Tidak ada photo
-                                            @endif
-                                        </td>
-                                    </tr>
+    <th>Bukti Photo</th>
+    <td>
+        @if($feed->img_banner)
+            <img src="{{ asset('storage/' . str_replace('public/', '', $feed->img_banner)) }}" alt="Photo Banner" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;" data-toggle="modal" data-target="#modal{{ $feed->id }}">
+        @else
+            Tidak ada photo
+        @endif
+    </td>
+</tr>
+
+<!-- Modal -->
+<div class="modal fade" id="modal{{ $feed->id }}" tabindex="-1" role="dialog" aria-labelledby="modal{{ $feed->id }}Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                @if($feed->img_banner)
+                    <img src="{{ asset('storage/' . str_replace('public/', '', $feed->img_banner)) }}" alt="Photo Banner" style="max-height: 80vh; max-width: 100%;" class="img-fluid">
+                @else
+                    Tidak ada photo
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+
                                     
                                 </table>
                                 <div class="d-flex justify-content-end mt-4 mb-2">
