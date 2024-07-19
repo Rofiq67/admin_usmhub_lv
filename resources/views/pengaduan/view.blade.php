@@ -82,7 +82,7 @@
                                         <th>Bukti Photo</th>
                                         <td>
                                             @if($pengaduan->bukti_photo)
-                                                <img src="{{ asset('storage/' . ltrim($pengaduan->bukti_photo, '/')) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;" data-toggle="modal" data-target="#modal{{ $pengaduan->id }}">
+                                                <img src="{{ asset('storage/api_usmhub/' . ltrim($pengaduan->bukti_photo, '/')) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;" data-toggle="modal" data-target="#modal{{ $pengaduan->id }}">
                                             @else
                                                 Tidak ada photo
                                             @endif
@@ -95,7 +95,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-body text-center">
                                                     @if($pengaduan->bukti_photo)
-                                                        <img src="{{ asset('storage/' . ltrim($pengaduan->bukti_photo, '/')) }}" alt="Bukti Photo" style="max-height: 80vh; max-width: 100%;" class="img-fluid">
+                                                        <img src="{{ asset('storage/api_usmhub/' . ltrim($pengaduan->bukti_photo, '/')) }}" alt="Bukti Photo" style="max-height: 80vh; max-width: 100%;" class="img-fluid">
                                                     @else
                                                         Tidak ada photo
                                                     @endif
@@ -255,29 +255,46 @@
                                                 </div>
                                                     <div class="d-flex flex-column @if(!($komen->user->isAdmin() || $komen->user->isSuperAdmin())) align-items-end  mr-3 @endif">
                                                         @if($komen->file)
-                                                        @if(in_array(pathinfo($komen->file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
-                                                        <!-- Gambar -->
-                                                        <div>
-                                                            <a href="{{ asset('storage/' . $komen->file) }}">
-                                                                <img class="img-thumbnail mb-2" src="{{ asset('storage/' . $komen->file) }}" alt="File" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;">
-                                                            </a>
-                                                        </div>
-                                                        @else
-                                                        <!-- File -->
-                                                        <div class="p-2 badge mb-2 text-wrap fs-6 rounded @if($komen->user->isAdmin() || $komen->user->isSuperAdmin()) bg-primary text-white @else bg-secondary  text-light @endif" style="text-align: left;width: fit-content;">
-                                                            <a href="{{ asset('storage/' . $komen->file) }}" download>
+                                                            @if(in_array(pathinfo($komen->file, PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif']))
+                                                                <!-- Gambar -->
+                                                                <div>
+                                                                    @php
+                                                                        // Tentukan path gambar sesuai dengan role pengguna
+                                                                        if ($komen->user->isAdmin() || $komen->user->isSuperAdmin()) {
+                                                                            $imagePath = asset('storage/' . $komen->file);
+                                                                        } else {
+                                                                            $imagePath = asset('storage/api_usmhub/' . $komen->file);
+                                                                        }
+                                                                    @endphp
+                                                                    <a href="{{ $imagePath }}">
+                                                                        <img class="img-thumbnail mb-2" src="{{ $imagePath }}" alt="File" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;">
+                                                                    </a>
+                                                                </div>
+                                                            @else
+                                                                <!-- File -->
+                                                                <div class="p-2 badge mb-2 text-wrap fs-6 rounded @if($komen->user->isAdmin() || $komen->user->isSuperAdmin()) bg-primary text-white @else bg-secondary text-light @endif" style="text-align: left;width: fit-content;">
+                                                            @php
+                                                                // Tentukan path file sesuai dengan role pengguna
+                                                                if ($komen->user->isAdmin() || $komen->user->isSuperAdmin()) {
+                                                                    $filePath = asset('storage/' . $komen->file);
+                                                                } else {
+                                                                    $filePath = asset('storage/api_usmhub/' . $komen->file);
+                                                                }
+                                                            @endphp
+                                                            <a href="{{ $filePath }}" download>
                                                                 <div class="d-flex align-items-center badge text-wrap fs-6 p-2 mb-2 @if($komen->user->isAdmin() || $komen->user->isSuperAdmin()) bg-primary text-white @elseif($komen->user->id === Auth::user()->id) bg-light @endif">
                                                                     <span class="badge bg-light rounded-circle d-flex justify-content-center align-items-center mr-2" style="width: 30px; height: 30px">
                                                                         <i class="fa fa-file @if($komen->user->isAdmin() || $komen->user->isSuperAdmin()) text-primary @else text-secondary @endif"></i>
                                                                     </span>
                                                                     <span>{{ $komen->file }}</span>
                                                                     <span class="badge bg-light rounded-circle d-flex justify-content-center align-items-center ml-2" style="width: 30px; height: 30px">
-                                                                        <i class="fa fa-download  @if($komen->user->isAdmin() || $komen->user->isSuperAdmin()) text-primary @else text-secondary @endif"></i>
+                                                                        <i class="fa fa-download @if($komen->user->isAdmin() || $komen->user->isSuperAdmin()) text-primary @else text-secondary @endif"></i>
                                                                     </span>
                                                                 </div>
                                                             </a>
                                                         </div>
-                                                        @endif
+
+                                                            @endif
                                                         @endif
                                                         <div class="p-2 badge text-wrap fs-6 rounded @if($komen->user->isAdmin() || $komen->user->isSuperAdmin()) bg-primary text-white @else bg-secondary text-light  @endif" style="text-align: left; width: fit-content;">
                                                             {{ $komen->text }}
@@ -303,7 +320,7 @@
                                 </div>
 
                                 <!-- Form untuk menambahkan komentar -->
-                                <form class="mr-4 ml-4 mt-3 position-sticky bottom-0" action="{{ route('kirim.komentar') }}" method="POST" enctype="multipart/form-data" id="commentForm">
+                                <form action="{{ route('kirim.komentar') }}" method="POST" enctype="multipart/form-data" id="commentForm">
                                     @csrf
                                     <input type="hidden" name="aduan_id" value="{{ $pengaduan->id }}">
                                     <div class="input-group mb-3">
@@ -333,13 +350,13 @@
                                                     <div class="modal-body">
                                                         <div class="form-group">
                                                             <label for="text">Komentar</label>
-                                                            <textarea class="form-control" name="text" rows="3" required>{{ $komen->text }}</textarea>
+                                                            <textarea class="form-control" name="text" rows="3" >{{ $komen->text }}</textarea>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="file">File (Optional)</label>
                                                             <input type="file" class="form-control-file" name="file">
                                                             @if($komen->file)
-                                                                <small class="form-text text-muted">Current file: {{ $komen->file }}</small>
+                                                                <small class="form-text text-muted">File Sekarang: {{ $komen->file }}</small>
                                                             @endif
                                                         </div>
                                                     </div>

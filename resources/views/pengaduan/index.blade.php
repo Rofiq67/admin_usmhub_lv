@@ -105,7 +105,7 @@
                                             <td>{{ $aduan->created_at->format('d/m/Y') }}</td>
                                             <td>
                                                 @if($aduan->bukti_photo)
-                                                    <img src="{{ asset('storage/' . $aduan->bukti_photo) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;" data-toggle="modal" data-target="#modal{{ $aduan->id }}">
+                                                    <img src="{{ asset('storage/api_usmhub/' . $aduan->bukti_photo) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;" data-toggle="modal" data-target="#modal{{ $aduan->id }}">
                                                 @else
                                                     Tidak ada foto
                                                 @endif
@@ -116,7 +116,7 @@
                                                     <div class="modal-content">
                                                         <div class="modal-body text-center">
                                                             @if($aduan->bukti_photo)
-                                                                <img src="{{ asset('storage/' . ltrim($aduan->bukti_photo, '/')) }}" alt="Bukti Photo" style="max-height: 80vh; max-width: 100%;" class="img-fluid">
+                                                                <img src="{{ asset('storage/api_usmhub/' . ltrim($aduan->bukti_photo, '/')) }}" alt="Bukti Photo" style="max-height: 80vh; max-width: 100%;" class="img-fluid">
                                                             @else
                                                                 Tidak ada photo
                                                             @endif

@@ -37,7 +37,12 @@ class AduanController extends Controller
         $pengaduan = Aduan::findOrFail($id);
 
         // Check if the admin is allowed to view this report
-        if ($admin->role !== 'Superadmin' && $pengaduan->program_studi !== $admin->progdi) {
+        if (
+            $admin->role !== 'Superadmin' &&
+            $admin->role !== 'Admin' &&
+            $admin->progdi !== 'Dekan FTIK' &&
+            $pengaduan->program_studi !== $admin->progdi
+        ) {
             return redirect()->route('pengaduan.index')->with('error', 'Anda tidak memiliki izin untuk melihat aduan ini.');
         }
 
@@ -46,6 +51,7 @@ class AduanController extends Controller
 
         return view('pengaduan.view', compact('pengaduan', 'users'));
     }
+
 
     public function updateStatus($id, $status)
     {

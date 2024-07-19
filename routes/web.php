@@ -52,9 +52,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/feed', [FeedController::class, 'store'])->name('feed.store');
     Route::get('/feed/{id}/edit', [FeedController::class, 'edit'])->name('feed.edit');
     Route::put('/feed/{id}', [FeedController::class, 'update'])->name('feed.update');
-    // Route::post('/feed/upload-attachment', [FeedController::class, 'uploadAttachment'])->name('feed.upload_attachment');
     Route::delete('/feed/{id}', [FeedController::class, 'destroy'])->name('feed.destroy');
-    Route::post('/feed/upload/{id}', [FeedController::class, 'upload'])->name('feed.upload');
 
     Route::get('/datamhs', [UserController::class, 'index'])->name('users.index');
     Route::get('/datamhs/view/{id}', [UserController::class, 'view'])->name('users.view');

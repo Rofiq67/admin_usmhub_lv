@@ -62,7 +62,7 @@
                                         <th>Photo Profile</th>
                                         <td>
                                             @if($user->img_profile)
-                                                <img src="{{ asset('storage/photos/' . $user->img_profile) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;">
+                                                <img src="{{ asset('storage/api_usmhub/' . $user->img_profile) }}" alt="Bukti Photo" style="height: 100px; width: 100px; object-fit: cover; border-radius: 5px;">
                                             @else
                                                 Tidak ada photo
                                             @endif
